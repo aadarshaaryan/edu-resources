@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <div class="msg_wrapper">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for msg in messages %}
+        <div id="notify" class="notify">
+            <p>{{ msg }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <header>
+        <nav>
+            <form action="/" method="POST">
+                <input type="text" name="query" id="search" placeholder="search" required>
+                <button>
+                    <ion-icon name="search"></ion-icon>
+                </button>
+            </form>
+            <div class="second-part-of-nav">
+                <div class="toggle-dark-mode-w">
+                    <img src="static/images/day-and-night.png" alt="toggle dark mode" class="toggle-dark-mode">
+                </div>
+                <div class="drop-down-w">
+                    <ion-icon name="chevron-down"></ion-icon>
+                </div>
+            </div>
+        </nav>
+        <div class="menu">No menu available</div>
+    </header>
+
+    <div class="inst">
+        <h1>A platform to provide academic notes</h1>
+    </div>
+
+    <main>
+        {% for file in files %}
+        <a href="{{ file['file_path'] }}" target="_blank">
+            <div class="content">
+                <img src="{{ file['file_img'] }}" alt="{{ file['file_name'] }}">
+            </div>
+        </a>
+        {% endfor %}
+    </main>
+    <script src="{{ url_for('static', filename='css_and_js/script.js') }}"></script>
+</body>
+
+</html>

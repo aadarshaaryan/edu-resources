@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Files Table</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 80%;
+      margin: 20px auto;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    img {
+      max-width: 100px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Files Table</h2>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>File Path</th>
+      <th>File Name</th>
+      <th>Preview Image</th>
+    </tr>
+    {% for file in files %}
+    <tr>
+      <td>{{ file['id'] }}</td>
+      <td>
+        <a href="{{ file['file_path'] }}" target="_blank">
+          {{ file['file_path'] }}
+        </a>
+      </td>
+      <td>{{ file['file_name'] }}</td>
+      <td>
+        <img src="{{ file['file_img'] }}" alt="{{ file['file_name'] }}">
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
