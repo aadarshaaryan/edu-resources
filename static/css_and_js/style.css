@@ -7,6 +7,10 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+a{
+    color: inherit;
+}
+
 body {
     min-height: 100vh;
     overflow-x: hidden;
