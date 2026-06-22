@@ -161,5 +161,17 @@ def logout():
     flash("Logged out successfully.")
     return redirect(url_for("login"))
 
+@app.route("/tenth")
+def tenth():
+    return render_template("tenth.html")
+
+@app.route("/ninth")
+def ninth():
+    return render_template("ninth.html")
+
+@app.route("/twelth")
+def twelth():
+    return render_template("twelth.html")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

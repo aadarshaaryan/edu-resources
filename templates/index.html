@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edu-Resources</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/nav.css') }}">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
@@ -35,10 +36,10 @@
         </nav>
     </header>
     <main>
-        <div class="hero1">
+        <div class="hero1 htanimate">
             <img src="static/images/file_00000000346c72088d6453c04bed1edc.png">
         </div>
-        <div class="welcome-note">
+        <div class="welcome-note htanimate">
             <h3>👋 Welcome to <span class="h3sp">Edu Resources</span></h3>
             <p>Dear Students,
                 Edu Resources is your one-stop destination for quality academic materials. Here you'll find Detailed
@@ -52,17 +53,23 @@
                 Learn Smart. Revise Better. Score Higher.
             </p>
         </div>
-        <div class="materials-row">
+        <div class="materials-row htanimate">
             <h2>📚 Materials</h2>
             <a href="#">View all <ion-icon name="arrow-forward-outline"></ion-icon></a>
         </div>
-        <div class="hero2">
+        <div class="hero2 htanimate">
             <div class="classes">
-                <div class="class-10th">10th</div>
-                <div class="class-9th">9th</div>
-                <div class="class-12th">12th</div>
+                <a href="{{ url_for('tenth') }}">
+                    <div class="class-10th">10th</div>
+                </a>
+                <a href="{{ url_for('ninth') }}">
+                    <div class="class-9th">9th</div>
+                </a>
+                <a href="{{ url_for('twelth') }}">
+                    <div class="class-12th">12th</div>
+                </a>
             </div>
-            <div class="money-materials">
+            <div class="money-materials htanimate">
                 <div class="free-materials">
                     <div class="doc-icon-1">
                         <ion-icon name="document-text"></ion-icon>
@@ -80,40 +87,50 @@
                     <div class="desc-materials">
                         <h3>Paid Materials</h3>
                         <p>Premium content for deeper learning and better results.</p>
-                        <div class="explore-paid">Explore Premium <ion-icon name="arrow-forward-outline"></ion-icon></div>
+                        <div class="explore-paid">Explore Premium <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div id="sidebar" class="sidebar">
             <ul>
-                <a href="">
+                <a href="{{ url_for('dashboard') }}">
                     <li>Profile</li>
                 </a>
-                <a href="">
+
+                <a href="{{ url_for('home') }}">
                     <li>Home</li>
                 </a>
-                <a href="">
+
+                <a href="{{ url_for('tenth') }}">
                     <li>Class 10th</li>
                 </a>
-                <a href="">
+
+                <a href="{{ url_for('ninth') }}">
                     <li>Class 9th</li>
                 </a>
-                <a href="">
+
+                <a href="{{ url_for('twelth') }}">
                     <li>Class 12th</li>
                 </a>
+
                 <a href="">
                     <li>Social handle</li>
                 </a>
+
                 <a href="">
                     <li>Support</li>
                 </a>
+
                 <a href="">
                     <li>PDFs</li>
                 </a>
+
                 <a href="">
                     <li>Purchased</li>
                 </a>
+            </ul>
         </div>
     </main>
     <footer>
@@ -152,7 +169,7 @@
         </div>
     </footer>
 
-    <script src="{{ url_for('static', filename='css_and_js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='css_and_js/nav.js') }}"></script>
 </body>
 
 </html>

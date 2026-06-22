@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edu-Resources</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/tenth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/nav.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <div class="msg_wrapper">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for msg in messages %}
+        <div id="notify" class="notify">
+            <p>{{ msg }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <header>
+        <nav>
+            <div>
+                <img class="logo" src="static/images/e5f34382-a319-427e-9a3c-ee8b569c8a5a.png" alt="Edu Resources">
+            </div>
+            <a href="{{ url_for('dashboard') }}">
+                <div><ion-icon name="person-circle-sharp"></ion-icon></div>
+            </a>
+            <div id="toggleBtn"><ion-icon name="menu-outline"></ion-icon></div>
+        </nav>
+    </header>
+    <main>
+        <div id="sidebar" class="sidebar">
+            <ul>
+                <a href="{{ url_for('dashboard') }}">
+                    <li>Profile</li>
+                </a>
+
+                <a href="{{ url_for('home') }}">
+                    <li>Home</li>
+                </a>
+
+                <a href="{{ url_for('tenth') }}">
+                    <li>Class 10th</li>
+                </a>
+
+                <a href="{{ url_for('ninth') }}">
+                    <li>Class 9th</li>
+                </a>
+
+                <a href="{{ url_for('twelth') }}">
+                    <li>Class 12th</li>
+                </a>
+
+                <a href="">
+                    <li>Social handle</li>
+                </a>
+
+                <a href="">
+                    <li>Support</li>
+                </a>
+
+                <a href="">
+                    <li>PDFs</li>
+                </a>
+
+                <a href="">
+                    <li>Purchased</li>
+                </a>
+            </ul>
+        </div>
+
+        <div class="hero1 htanimate">
+            <img src="static/images/file_00000000d0547208a832584ee1d70234.png">
+        </div>
+        <div class="hero2 htanimate">
+            <div class="paid">Paid</div>
+            <div class="free">Free</div>
+        </div>
+        <h3>Subjects</h3>
+        <div class="hero3 htanimate">
+            <div class="subjects">Science</div>
+            <div class="subjects">Math</div>
+            <div class="subjects">English</div>
+            <div class="subjects">History</div>
+            <div class="subjects">Civics</div>
+            <div class="subjects">Geography</div>
+            <div class="subjects">Economics</div>
+            <div class="subjects">Hindi</div>
+            <div class="subjects">AI</div>
+            <div class="subjects">IT</div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='css_and_js/nav.js') }}"></script>
+</body>
+
+</html>

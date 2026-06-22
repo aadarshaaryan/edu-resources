@@ -77,34 +77,6 @@ body {
 
 /* -------------------------------------------------------------- notify ------------------------------------------------------------ */
 
-header {
-    width: 100%;
-    height: 55px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-nav {
-    padding: 0 20px;
-    height: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: white;
-}
-
-nav div:first-child {
-    margin-right: auto;
-}
-
-.logo {
-    height: 120px;
-    position: relative;
-    top: 10px;
-    left: -35px;
-}
-
 .materials-row {
     display: flex;
     justify-content: space-between;
@@ -114,15 +86,6 @@ nav div:first-child {
 h2 {
     font-weight: bolder;
     font-size: 1.2rem;
-}
-
-header ion-icon {
-    font-size: 35px;
-    cursor: pointer;
-}
-
-header ion-icon:nth-child(1) {
-    margin-right: 10px;
 }
 
 .hero1 {
@@ -142,12 +105,15 @@ main {
     padding: 0 6px;
 }
 
-.hero2 .classes {
+.classes {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
     gap: 12px;
     margin: 40px 0;
+}
+
+.classes a {
+    text-decoration: none;
 }
 
 .class-9th,
@@ -156,8 +122,8 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 42px;
-    width: 93%;
+    height: 60px;
+    width: 90px;
     border-radius: 10px;
 }
 
@@ -176,7 +142,7 @@ main {
     background-color: rgba(248, 255, 41, 0.442);
 }
 
-.money-materials{
+.money-materials {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -194,16 +160,16 @@ main {
     padding: 10px 0 0 10px;
 }
 
-.money-materials p{
+.money-materials p {
     font-size: 0.8rem;
 }
 
-.free-materials{
+.free-materials {
     border: 2px solid rgba(133, 222, 0, 0.308);
     background-color: rgba(203, 255, 124, 0.099);
 }
 
-.paid-materials{
+.paid-materials {
     border: 2px solid rgba(252, 0, 223, 0.233);
     background-color: rgba(255, 154, 243, 0.193);
 }
@@ -237,47 +203,12 @@ main {
     border-radius: 50px;
 }
 
-.sidebar {
-    background-color: blueviolet;
-    position: fixed;
-    top: 55px;
-    right: 0;
-    height: 100vh;
-    width: 300px;
-    color: white;
-    z-index: 999;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-}
-
-.sidebar.active {
-    transform: translateX(0);
-}
-
-
-.sidebar a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.sidebar ul {
-    list-style: none;
-}
-
-.sidebar ul li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    border-bottom: 2px solid rgb(125, 40, 204);
-}
-
 .h3sp {
     color: blue;
 }
 
 .doc-icon-1,
-.doc-icon-2{
+.doc-icon-2 {
     height: 40px;
     width: 40px;
     border-radius: 50%;
@@ -287,29 +218,29 @@ main {
     color: white;
 }
 
-.doc-icon-1{
+.doc-icon-1 {
     background-color: green;
 }
 
-.doc-icon-2{
+.doc-icon-2 {
     background-color: rgb(0, 0, 203);
 }
 
 .desc-materials {
-  flex: 1;
-  min-width: 0;
+    flex: 1;
+    min-width: 0;
 }
 
-.free-materials h3{
+.free-materials h3 {
     color: green;
 }
 
-.paid-materials h3{
+.paid-materials h3 {
     color: rgb(0, 0, 203);
 }
 
 .explore-free,
-.explore-paid{
+.explore-paid {
     font-size: 0.8rem;
     background-color: red;
     height: 30px;
@@ -322,41 +253,54 @@ main {
     margin-top: 10px;
 }
 
-.explore-free{
+.explore-free {
     background-color: green;
 }
 
-.explore-paid{
+.explore-paid {
     background-color: rgb(0, 0, 203);
 }
 
-footer{
+footer {
     background-color: rgb(19 0 37);
     height: 300px;
     color: rgba(255, 255, 255, 0.577);
     padding: 10px;
 }
 
-.part-2{
+.part-2 {
     display: flex;
     gap: 40px;
     margin-top: 30px;
 }
 
-ul{
+ul {
     list-style: none;
 }
 
-.contact-links{
+.contact-links {
     display: flex;
     gap: 10px;
     margin-top: 10px;
 }
 
-.last-line{
+.last-line {
     border-top: 1px solid rgba(255, 255, 255, 0.236);
     margin-top: 20px;
     font-size: 0.7rem;
     height: 30px;
     text-align: center;
+}
+
+.htanimate{
+    transform: translateY(50px);
+    opacity: 0;
+    animation: animate 1s ease-in-out forwards;
+}
+
+@keyframes animate {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

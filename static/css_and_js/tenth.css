@@ -1,0 +1,70 @@
+.hero1{
+    width: 93%;
+    margin: 30px auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero1 img{
+    border-radius: 13px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero2{
+    height: 70px;
+    width: 93%;
+    margin: 30px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.free,
+.paid{
+    border-radius: 13px;
+    background-color: rgb(0, 170, 255);
+    height: 100%;
+    width: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h3{
+    text-decoration: underline;
+    margin-left: 3.5%;
+}
+
+.hero3{
+    width: 93%;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.subjects{
+    border-radius: 13px;
+    background-color: rgb(153, 0, 255);
+    color: white;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.htanimate{
+    transform: translateY(50px);
+    opacity: 0;
+    animation: animate 1s ease-in-out forwards;
+}
+
+@keyframes animate {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
