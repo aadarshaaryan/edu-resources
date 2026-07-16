@@ -17,7 +17,7 @@
         {% if messages %}
         {% for msg in messages %}
         <div id="notify" class="notify">
-            <p>{{ msg }}</p>
+            <p style="margin: 0;">{{ msg }}</p>
         </div>
         {% endfor %}
         {% endif %}
@@ -26,146 +26,132 @@
 
     <header>
         <nav>
-            <div>
-                <img class="logo" src="static/images/e5f34382-a319-427e-9a3c-ee8b569c8a5a.png" alt="Edu Resources">
+            <div class="logo-container">
+                <img class="logo" src="static/images/logo.svg" alt="Edu Resources Logo">
             </div>
-            <a href="{{ url_for('dashboard') }}">
-                <div><ion-icon name="person-circle-sharp"></ion-icon></div>
-            </a>
-            <div id="toggleBtn"><ion-icon name="menu-outline"></ion-icon></div>
+            <div class="nav-actions">
+                <a href="{{ url_for('dashboard') }}" title="Profile">
+                    <ion-icon name="person-circle-sharp"></ion-icon>
+                </a>
+                <div id="toggleBtn" title="Menu">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+            </div>
         </nav>
     </header>
+
     <main>
-        <div class="hero1 htanimate">
-            <img src="static/images/file_00000000346c72088d6453c04bed1edc.png">
-        </div>
-        <div class="welcome-note htanimate">
-            <h3>👋 Welcome to <span class="h3sp">Edu Resources</span></h3>
-            <p>Dear Students,
-                Edu Resources is your one-stop destination for quality academic materials. Here you'll find Detailed
-                Notes, Short Notes, Cheat Sheets, Flashcards, Important Formulas, PYQs, and Exam-Oriented Questions
-                designed to make learning easier and revision faster.
-                Every resource is carefully organized to help you understand concepts clearly, save valuable time, and
-                perform better in exams. No more endless searching across different websites—everything you need is
-                available in one place.
-                Whether you're preparing for school exams, boards, or competitive exams, Edu Resources is here to
-                support your academic journey.
-                Learn Smart. Revise Better. Score Higher.
-            </p>
-        </div>
-        <div class="materials-row htanimate">
-            <h2>📚 Materials</h2>
-            <a href="#">View all <ion-icon name="arrow-forward-outline"></ion-icon></a>
-        </div>
-        <div class="hero2 htanimate">
-            <div class="classes">
-                <a href="{{ url_for('tenth') }}">
-                    <div class="class-10th">10th</div>
+        <section class="hero-section htanimate">
+            <div class="welcome-card">
+                <h3 class="gradient-text">👋 Welcome to Edu Resources</h3>
+                <p>
+                    Dear Students, <br><br>
+                    Edu Resources is your ultimate space-age portal for quality academic materials. Dive into our
+                    handcrafted Detailed Notes, Cheat Sheets, interactive Flashcards, PYQs, and high-impact study
+                    formula kits designed to turbocharge your study routine.
+                </p>
+                <p>
+                    No more scrolling through clunky websites. Everything you need is aggregated, refined, and organized
+                    flawlessly in one premium hub. Learn Smart. Revise Better. Score Higher.
+                </p>
+            </div>
+        </section>
+
+        <section class="materials-section htanimate">
+            <div class="section-header">
+                <h2>📚 Academic Materials</h2>
+            </div>
+
+            <div class="class-grid">
+                <a href="{{ url_for('ninth') }}" class="class-card">
+                    <div>9th Class</div>
                 </a>
-                <a href="{{ url_for('ninth') }}">
-                    <div class="class-9th">9th</div>
+                <a href="{{ url_for('tenth') }}" class="class-card">
+                    <div>10th Class</div>
                 </a>
-                <a href="{{ url_for('twelth') }}">
-                    <div class="class-12th">12th</div>
+                <a href="{{ url_for('twelth') }}" class="class-card">
+                    <div>12th Class</div>
                 </a>
             </div>
-            <div class="money-materials htanimate">
-                <div class="free-materials">
-                    <div class="doc-icon-1">
-                        <ion-icon name="document-text"></ion-icon>
+
+            <div class="tier-grid">
+
+                <div class="tier-card premium">
+                    <div class="tier-icon">
+                        <ion-icon name="diamond-outline"></ion-icon>
                     </div>
-                    <div class="desc-materials">
-                        <h3>Free Materials</h3>
-                        <p>Access high quality study materials absolutely free.</p>
-                        <div class="explore-free">Explore Free <ion-icon name="arrow-forward-outline"></ion-icon></div>
-                    </div>
-                </div>
-                <div class="paid-materials">
-                    <div class="doc-icon-2">
-                        <ion-icon name="diamond-sharp"></ion-icon>
-                    </div>
-                    <div class="desc-materials">
-                        <h3>Paid Materials</h3>
-                        <p>Premium content for deeper learning and better results.</p>
-                        <div class="explore-paid">Explore Premium <ion-icon name="arrow-forward-outline"></ion-icon>
-                        </div>
+                    <div class="tier-info">
+                        <h3>Premium Materials</h3>
+                        <p>Unlock deep-dive mock exams, ultimate revision sheets, and hyper-targeted test preparation
+                            guides.</p>
+                        <a href="#" class="explore-link">Go Premium <ion-icon
+                                name="arrow-forward-outline"></ion-icon></a>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
         <div id="sidebar" class="sidebar">
             <ul>
-                <a href="{{ url_for('dashboard') }}">
-                    <li>Profile</li>
-                </a>
-
                 <a href="{{ url_for('home') }}">
                     <li>Home</li>
                 </a>
-
-                <a href="{{ url_for('tenth') }}">
-                    <li>Class 10th</li>
+                <a href="{{ url_for('dashboard') }}">
+                    <li>Profile</li>
                 </a>
-
                 <a href="{{ url_for('ninth') }}">
                     <li>Class 9th</li>
                 </a>
-
+                <a href="{{ url_for('tenth') }}">
+                    <li>Class 10th</li>
+                </a>
                 <a href="{{ url_for('twelth') }}">
                     <li>Class 12th</li>
                 </a>
-
                 <a href="">
-                    <li>Social handle</li>
+                    <li>My Purchases</li>
                 </a>
-
                 <a href="">
-                    <li>Support</li>
-                </a>
-
-                <a href="">
-                    <li>PDFs</li>
-                </a>
-
-                <a href="">
-                    <li>Purchased</li>
+                    <li>Support Helpdesk</li>
                 </a>
             </ul>
         </div>
     </main>
+
     <footer>
-        <div class="part-1">
-            <h3><ion-icon name="school-sharp"></ion-icon> Edu Resources</h3>
-            <p>Your trusted partner in academic success. <br> Learn Smart, Achieve More.</p>
-        </div>
-        <div class="part-2">
-            <div class="part-a">
-                <h4>Quick Links</h4>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>
+                    <ion-icon name="school-outline" style="color: var(--accent-secondary);"></ion-icon> Edu Resources
+                </h3>
+                <p>Your trusted academic partner in rewriting potential into progress. Learn Smart, Achieve More.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Access</h4>
                 <ul>
-                    <li>Home</li>
-                    <li>Materials</li>
-                    <li>Free Materials</li>
-                    <li>Paid Materials</li>
-                    <li>About Us</li>
+                    <li>Home Feed</li>
+                    <li>Resource Catalog</li>
+                    <li>Free Tier Documents</li>
+                    <li>Premium Tier Packages</li>
                 </ul>
-                <div class="contact-links">
+            </div>
+            <div class="footer-links">
+                <h4>Support Hub</h4>
+                <ul>
+                    <li>Contact Support Team</li>
+                    <li>Terms of Service</li>
+                    <li>Privacy Protocols</li>
+                </ul>
+                <div class="social-icons">
                     <ion-icon name="logo-github"></ion-icon>
                     <ion-icon name="logo-linkedin"></ion-icon>
                     <ion-icon name="logo-twitter"></ion-icon>
                 </div>
             </div>
-            <div class="part-b">
-                <h4>Support</h4>
-                <ul>
-                    <li>Contact Us</li>
-                    <li>Terms & Conditions</li>
-                    <li>Privacy policy</li>
-                </ul>
-            </div>
         </div>
-        <div class="last-line">
+        <div class="footer-bottom">
             <p>© 2026 Neeraj Srivastava. All rights reserved.</p>
-            <p>Made with ❤️ for Students</p>
+            <p>Engineered with ❤️ for Students</p>
         </div>
     </footer>
 

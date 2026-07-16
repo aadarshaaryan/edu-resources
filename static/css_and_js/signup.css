@@ -1,161 +1,223 @@
+:root {
+    --bg-gradient: radial-gradient(circle at 50% 50%, #12131c 0%, #08090d 100%);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-hover: rgba(255, 255, 255, 0.07);
+    --accent-primary: #8a2be2;
+    --accent-secondary: #00f2fe;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --neon-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
+}
+
 * {
     margin: 0;
     padding: 0;
-    transition: all 0.3s;
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     -webkit-tap-highlight-color: transparent;
 }
 
 body {
     min-height: 100vh;
+    width: 100vw;
     overflow-x: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #1F2937;
-    background: url("/static/images/WhatsApp Image 2026-06-17 at 7.20.51 PM.jpeg") center/cover no-repeat fixed;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    background: var(--bg-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
 }
 
-/* -------------------------------------------------------------- notify ------------------------------------------------------------ */
+/* --------------------------- Interactive Flash Messages --------------------------- */
+.msg_wrapper {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    width: 90%;
+    max-width: 350px;
+    display: flex;
+    justify-content: center;
+}
 
 .notify {
-    position: fixed;
-    top: 5px;
-    background-color: rgb(166, 0, 255);
-    height: 60px;
-    max-width: 320px;
-    border-radius: 18px;
-    padding: 5px;
+    background: rgba(138, 43, 226, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--accent-primary);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    color: #fff;
+    width: 100%;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
-    z-index: 2000;
-}
-
-.msg_wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.15);
 }
 
 .notify_come {
-    animation: notification_come 0.3s ease-in-out forwards;
+    animation: notification_come 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .notify_go {
-    animation: notification_go 0.3s ease-in-out forwards;
+    animation: notification_go 0.3s ease-in forwards;
 }
 
 @keyframes notification_come {
-    from {
-        opacity: 0;
-        transform: translateY(-60px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes notification_go {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(-60px);
-    }
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-30px); }
 }
-/* -------------------------------------------------------------- notify ------------------------------------------------------------ */
 
-
+/* --------------------------- Cosmic Form Glass Container --------------------------- */
 .form-container {
-    width: 260px;
-    margin: 130px auto 0 auto;
-    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    padding: 3rem 2.2rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    gap: 30px;
-    border-radius: 13px;
+    gap: 2rem;
+    border-radius: 24px;
     position: relative;
-    background: #fff;
     z-index: 1;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
+/* Dynamic Animated Aura Border Accent */
 .form-container::before,
 .form-container::after {
     content: "";
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border-radius: 15px;
-    background: linear-gradient(270deg, #ff00ff, #00ffff, #ff00ff);
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: 25px;
+    background: linear-gradient(270deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary));
     background-size: 400% 400%;
     z-index: -1;
-    animation: moveBorder 6s linear infinite;
+    animation: moveBorder 8s linear infinite;
+    opacity: 0.4;
 }
 
 .form-container::after {
-    filter: blur(8px);
-    opacity: 0.7;
-    animation: moveBorder 10s linear infinite reverse;
+    filter: blur(12px);
+    opacity: 0.25;
+    animation: moveBorder 8s linear infinite reverse;
 }
 
 @keyframes moveBorder {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 30px;
-}
-
-p {
-    font-size: 0.8rem;
-    text-align: center;
-}
-
-input {
-    height: 60px;
-    width: 270px;
-    border-radius: 50px;
-    border: none;
-    padding: 0 12px;
-}
-
-input:hover,
-button:hover{
-    box-shadow: 0 0 30px white;
-}
-
-button {
-    background-color: white;
-    height: 60px;
-    width: 294px;
-    border: none;
-    border-radius: 50px;
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 h2 {
+    font-size: 2.1rem;
+    font-weight: 700;
     text-align: center;
+    background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.input-group {
+    width: 100%;
+    position: relative;
+}
+
+/* Modern Input Layout rules */
+input {
+    height: 56px;
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0 1.2rem;
+    color: var(--text-main);
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+}
+
+input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+input:focus {
+    border-color: var(--accent-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+}
+
+/* Premium Action Button styling */
+button {
+    background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+    color: #08090d;
+    height: 56px;
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--neon-shadow);
+    color: #fff;
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.footer-text {
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.footer-text a {
+    color: var(--accent-secondary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-text a:hover {
+    color: var(--accent-primary);
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for extremely tiny mobile structures */
+@media (max-width: 360px) {
+    .form-container {
+        padding: 2rem 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.7rem;
+    }
 }
