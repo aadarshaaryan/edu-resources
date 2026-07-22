@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edu-Resources | 10th Grade Hub</title>
+    <title>Edu-Resources | Class 10th Board Hub</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/tenth.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -31,7 +31,7 @@
             </div>
             <div class="nav-actions">
                 <a href="{{ url_for('dashboard') }}" title="Profile">
-                    <ion-icon name="person-circle-sharp"></ion-icon>
+                    <ion-icon name="person-circle-outline"></ion-icon>
                 </a>
                 <div id="toggleBtn" title="Menu">
                     <ion-icon name="menu-outline"></ion-icon>
@@ -42,36 +42,55 @@
 
     <main>
         <div id="sidebar" class="sidebar">
-            <ul>
-                <a href="{{ url_for('home') }}"><li>Home Feed</li></a>
-                <a href="{{ url_for('dashboard') }}"><li>Profile</li></a>
-                <a href="{{ url_for('ninth') }}"><li>Class 9th</li></a>
-                <a href="{{ url_for('tenth') }}"><li>Class 10th</li></a>
-                <a href="{{ url_for('twelth') }}"><li>Class 12th</li></a>
-                <a href="#"><li>PDF Vault</li></a>
-                <a href="#"><li>My Purchases</li></a>
-                <a href="#"><li>Support Helpdesk</li></a>
-            </ul>
-        </div>
+    <!-- Close / Cross Button -->
+    <div id="closeBtn" class="close-btn" title="Close Menu">
+        <ion-icon name="close-outline"></ion-icon>
+    </div>
+
+    <ul>
+        <a href="{{ url_for('home') }}">
+            <li>Home</li>
+        </a>
+        <a href="{{ url_for('dashboard') }}">
+            <li>Profile</li>
+        </a>
+        <a href="{{ url_for('ninth') }}">
+            <li>Class 9th</li>
+        </a>
+        <a href="{{ url_for('tenth') }}">
+            <li>Class 10th</li>
+        </a>
+        <a href="{{ url_for('twelth') }}">
+            <li>Class 12th</li>
+        </a>
+        <a href="">
+            <li>My Purchases</li>
+        </a>
+        <a href="">
+            <li>Support Helpdesk</li>
+        </a>
+    </ul>
+</div>
 
         <div class="hero2 htanimate">
             <div class="paid"><ion-icon name="diamond-outline" style="margin-right: 8px;"></ion-icon> Premium Tier</div>
             <div class="free"><ion-icon name="document-text-outline" style="margin-right: 8px;"></ion-icon> Free Tier</div>
         </div>
 
-        <h3 class="htanimate">Academic Subjects</h3>
+        <div class="htanimate" style="margin-bottom: 1.5rem;">
+            <span style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;">🎯 BOARD EXAM SPECIAL</span>
+            <h3 style="display: block; margin-top: 0.5rem; margin-bottom: 0;">Class 10th Board Subjects & PYQs</h3>
+        </div>
         
         <div class="hero3 htanimate">
-            <div class="subjects">Science</div>
-            <div class="subjects">Mathematics</div>
-            <div class="subjects">English Lit & Grammar</div>
-            <div class="subjects">History</div>
-            <div class="subjects">Civics</div>
-            <div class="subjects">Geography</div>
-            <div class="subjects">Economics</div>
-            <div class="subjects">Hindi</div>
+            <div class="subjects">Science (Theory & Lab)</div>
+            <div class="subjects">Mathematics (Standard & Basic)</div>
+            <div class="subjects">English Language & Literature</div>
+            <div class="subjects">Social Science (SST)</div>
+            <div class="subjects">Hindi (Course A & B)</div>
+            <div class="subjects">Computer Applications</div>
             <div class="subjects">Artificial Intelligence (AI)</div>
-            <div class="subjects">Information Technology (IT)</div>
+            <div class="subjects">10th Sample Papers & PYQs</div>
         </div>
     </main>
 

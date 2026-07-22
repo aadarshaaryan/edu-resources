@@ -1,15 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg-gradient: radial-gradient(circle at 50% 50%, #12131c 0%, #08090d 100%);
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-hover: rgba(255, 255, 255, 0.07);
-    --accent-primary: #8a2be2;
-    --accent-secondary: #00f2fe;
-    --text-main: #f3f4f6;
-    --text-muted: #9ca3af;
-    --neon-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
+    --bg-body: #f8fafc;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-hover: #f1f5f9;
+
+    --accent-primary: #4f46e5;
+    --accent-secondary: #0284c7;
+
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --text-heading: #1e293b;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
 }
 
 * {
@@ -35,10 +40,11 @@ main {
 .hero1 {
     width: 100%;
     margin-bottom: 2.5rem;
-    border-radius: 24px;
+    border-radius: 20px;
     overflow: hidden;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-md);
+    background: var(--card-bg);
 }
 
 .hero1 img {
@@ -61,23 +67,42 @@ main {
     flex: 1;
     height: 60px;
     border-radius: 16px;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    background: var(--glass-bg);
+    background: var(--card-bg);
     position: relative;
-    border: 1px solid var(--accent-primary);
-    box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-sm);
+    color: var(--text-heading);
+}
+
+.paid {
+    border-color: rgba(79, 70, 229, 0.4);
     color: var(--accent-primary);
+    background: #eef2ff;
+}
+
+.free {
+    border-color: rgba(2, 132, 199, 0.4);
+    color: var(--accent-secondary);
+    background: #f0f9ff;
+}
+
+.paid:hover,
+.free:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 /* --------------------------- Section Headers & Content --------------------------- */
 h3 {
     font-size: 1.8rem;
     font-weight: 700;
+    color: var(--text-heading);
     margin-bottom: 2rem;
     position: relative;
     display: inline-block;
@@ -91,8 +116,8 @@ h3 {
 }
 
 .subjects {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 16px;
     height: 70px;
     display: flex;
@@ -100,11 +125,19 @@ h3 {
     align-items: center;
     font-size: 1.1rem;
     font-weight: 600;
+    color: var(--text-main);
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    border-top: 4px solid var(--accent-secondary);
-    box-shadow: 0 0 10px var(--text-muted);
+    border-top: 4px solid var(--accent-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.subjects:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    background: var(--card-hover);
+    color: var(--accent-primary);
 }
 
 /* --------------------------- Animation Framework --------------------------- */

@@ -31,7 +31,7 @@
             </div>
             <div class="nav-actions">
                 <a href="{{ url_for('dashboard') }}" title="Profile">
-                    <ion-icon name="person-circle-sharp"></ion-icon>
+                    <ion-icon name="person-circle-outline"></ion-icon>
                 </a>
                 <div id="toggleBtn" title="Menu">
                     <ion-icon name="menu-outline"></ion-icon>
@@ -46,7 +46,7 @@
                 <h3 class="gradient-text">👋 Welcome to Edu Resources</h3>
                 <p>
                     Dear Students, <br><br>
-                    Edu Resources is your ultimate space-age portal for quality academic materials. Dive into our
+                    Edu Resources is your ultimate modern portal for quality academic materials. Dive into our
                     handcrafted Detailed Notes, Cheat Sheets, interactive Flashcards, PYQs, and high-impact study
                     formula kits designed to turbocharge your study routine.
                 </p>
@@ -75,7 +75,6 @@
             </div>
 
             <div class="tier-grid">
-
                 <div class="tier-card premium">
                     <div class="tier-icon">
                         <ion-icon name="diamond-outline"></ion-icon>
@@ -92,6 +91,11 @@
         </section>
 
         <div id="sidebar" class="sidebar">
+            <!-- Close / Cross Button -->
+            <div id="closeBtn" class="close-btn" title="Close Menu">
+                <ion-icon name="close-outline"></ion-icon>
+            </div>
+
             <ul>
                 <a href="{{ url_for('home') }}">
                     <li>Home</li>
@@ -122,7 +126,7 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <h3>
-                    <ion-icon name="school-outline" style="color: var(--accent-secondary);"></ion-icon> Edu Resources
+                    <ion-icon name="school-outline" style="color: var(--accent-primary);"></ion-icon> Edu Resources
                 </h3>
                 <p>Your trusted academic partner in rewriting potential into progress. Learn Smart, Achieve More.</p>
             </div>
