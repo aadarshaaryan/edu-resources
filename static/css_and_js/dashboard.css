@@ -109,11 +109,11 @@ body {
 
 .items .item:nth-child(2) {
   position: absolute;
-  right: 10px;
+  right: -6px;
   border: 1px solid var(--theme-purple);
   border-radius: 12px;
   height: 32px;
-  padding: 0 12px;
+  padding: 0 5px;
   display: flex;
   justify-content: center;
   align-items: center;
