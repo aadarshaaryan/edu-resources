@@ -54,50 +54,6 @@ main {
     object-fit: cover;
 }
 
-/* --------------------------- Tier Filter Hub --------------------------- */
-.hero2 {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-    width: 100%;
-}
-
-.free,
-.paid {
-    flex: 1;
-    height: 60px;
-    border-radius: 16px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    background: var(--card-bg);
-    position: relative;
-    border: 1px solid var(--card-border);
-    box-shadow: var(--shadow-sm);
-    color: var(--text-heading);
-}
-
-.paid {
-    border-color: rgba(79, 70, 229, 0.4);
-    color: var(--accent-primary);
-    background: #eef2ff;
-}
-
-.free {
-    border-color: rgba(2, 132, 199, 0.4);
-    color: var(--accent-secondary);
-    background: #f0f9ff;
-}
-
-.paid:hover,
-.free:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
 /* --------------------------- Section Headers & Content --------------------------- */
 h3 {
     font-size: 1.8rem;
@@ -141,18 +97,7 @@ h3 {
 }
 
 /* --------------------------- Animation Framework --------------------------- */
-.htanimate {
-    transform: translateY(30px);
-    opacity: 0;
-    animation: animateCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
 
-@keyframes animateCard {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 /* Sequential animation delay adjustments for grids */
 .hero3 .subjects:nth-child(1) {
@@ -169,6 +114,22 @@ h3 {
 
 .hero3 .subjects:nth-child(4) {
     animation-delay: 0.25s;
+}
+
+.subject-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.subjects {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.subjects:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* --------------------------- Mobile Responsiveness --------------------------- */

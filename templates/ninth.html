@@ -27,7 +27,7 @@
     <header>
         <nav>
             <div>
-                <img class="logo" src="static/images/logo.svg" alt="Edu Resources Logo">
+                <img class="logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Edu Resources Logo">
             </div>
             <div class="nav-actions">
                 <a href="{{ url_for('dashboard') }}" title="Profile">
@@ -42,11 +42,9 @@
 
     <main>
         <div id="sidebar" class="sidebar">
-            <!-- Close / Cross Button -->
             <div id="closeBtn" class="close-btn" title="Close Menu">
                 <ion-icon name="close-outline"></ion-icon>
             </div>
-
             <ul>
                 <a href="{{ url_for('home') }}">
                     <li>Home</li>
@@ -63,19 +61,13 @@
                 <a href="{{ url_for('twelth') }}">
                     <li>Class 12th</li>
                 </a>
-                <a href="">
+                <a href="#">
                     <li>My Purchases</li>
                 </a>
-                <a href="">
+                <a href="#">
                     <li>Support Helpdesk</li>
                 </a>
             </ul>
-        </div>
-
-        <div class="hero2 htanimate">
-            <div class="paid"><ion-icon name="diamond-outline" style="margin-right: 8px;"></ion-icon> Premium Tier</div>
-            <div class="free"><ion-icon name="document-text-outline" style="margin-right: 8px;"></ion-icon> Free Tier
-            </div>
         </div>
 
         <div class="htanimate" style="margin-bottom: 1.5rem;">
@@ -85,16 +77,16 @@
             <h3 style="display: block; margin-top: 0.5rem; margin-bottom: 0;">Class 9th Academic Subjects</h3>
         </div>
 
+        <!-- Dynamic Subjects Loop -->
+        <!-- Dynamic Subjects Loop with Links -->
         <div class="hero3 htanimate">
-            <div class="subjects">General Science</div>
-            <div class="subjects">Mathematics</div>
-            <div class="subjects">English Language & Lit</div>
-            <div class="subjects">History & Civics</div>
-            <div class="subjects">Geography & Economics</div>
-            <div class="subjects">Hindi (Course A & B)</div>
-            <div class="subjects">Sanskrit</div>
-            <div class="subjects">Information Technology (402)</div>
-            <div class="subjects">Artificial Intelligence (417)</div>
+            {% for subject in subjects %}
+            <a href="{{ url_for('view_resources', subject_id=subject.id) }}" class="subject-link">
+                <div class="subjects">{{ subject.name }}</div>
+            </a>
+            {% else %}
+            <div class="subjects">No subjects added yet. Add some from the Admin Panel!</div>
+            {% endfor %}
         </div>
     </main>
 

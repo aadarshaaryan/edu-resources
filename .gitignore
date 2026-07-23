@@ -1,12 +1,13 @@
 venv/
 .venv/
 
-__pycache__/
-*.pyc
-
-.env
-
 instance/
 
 .vscode/
 .idea/
+
+.env
+__pycache__/
+*.pyc
+instance/
+static/uploads/

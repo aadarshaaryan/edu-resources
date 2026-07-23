@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edu-Resources | {{ subject.name }} Resources</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/tenth.css') }}">
+</head>
+
+<body>
+    <div class="container" style="padding: 2rem; max-width: 900px; margin: 0 auto;">
+        <h2>📚 {{ subject.name }} - Study Resources</h2>
+        <a href="javascript:history.back()" class="btn"
+            style="text-decoration: none; padding: 6px 14px; background: #4f46e5; color: white; border-radius: 8px; display: inline-block; margin-top: 10px;">←
+            Back</a>
+
+        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #e2e8f0;">
+
+        {% for resource in resources %}
+        <div class="resource-card"
+            style="margin-bottom: 2rem; background: #ffffff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 style="margin: 0;">{{ resource.title }}</h3>
+                <span
+                    style="font-size: 0.8rem; padding: 4px 10px; border-radius: 12px; background: #e0e7ff; color: #3730a3; font-weight: 600;">
+                    {{ resource.tier.value | upper }}
+                </span>
+            </div>
+
+            <!-- Embedded PDF Reader for Regular Students (View Only) -->
+            <div
+                style="width: 100%; height: 650px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #f8fafc;">
+                <iframe
+                    src="https://docs.google.com/viewer?url={{ resource.file_path | urlencode }}&embedded=true#toolbar=0"
+                    width="100%" height="100%" style="border: none;">
+                </iframe>
+            </div>
+        </div>
+
+        <a href="#">
+            <div class="last_line"
+                style="background-color: rgb(0, 134, 90); color: white; height: 50px; width: 140px; font-weight: bolder; display: flex; justify-content: center; align-items: center; border-radius: 8px; margin: 0 auto 50px auto; cursor: pointer;">
+                Get full pdf</div>
+        </a>
+        {% else %}
+        <p style="color: #64748b;">No study resources available for this subject yet.</p>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

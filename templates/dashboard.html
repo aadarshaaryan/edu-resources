@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
+    <title>Student Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/dashboard.css') }}">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 
 <body>
+    <!-- Flash Messages Container -->
     <div class="msg_wrapper">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -24,124 +24,103 @@
         {% endwith %}
     </div>
 
-    <a href="{{ url_for('home') }}"><ion-icon class="home-back" name="home-sharp"></ion-icon></a>
+    <!-- Top Navigation -->
+    <a href="{{ url_for('home') }}" class="home-back-link">
+        <ion-icon class="home-back" name="home-sharp"></ion-icon>
+    </a>
 
-    <form method="POST" action="{{ url_for('dashboard') }}">
-        <div class="cont">
-            <div class="items">
-                <div class="item">Profile</div>
-                <div class="edit item"><ion-icon name="create-outline"></ion-icon>Edit</div>
+    <div class="dashboard-wrapper">
+        <form method="POST" action="{{ url_for('dashboard') }}">
+            <div class="cont">
+                <!-- Header / Edit toggle -->
+                <div class="items">
+                    <div class="item">Profile</div>
+                    <div class="edit item">
+                        <ion-icon name="create-outline"></ion-icon><span>Edit</span>
+                    </div>
+                </div>
+
+                <!-- Avatar Section -->
+                <div class="avatar-wrapper">
+                    <img id="avatar"
+                        src="{{ profile.avatar_path if profile.avatar_path else url_for('static', filename='images/default.png') }}"
+                        alt="Avatar">
+                </div>
+                <input type="hidden" name="avatar_path" id="avatar_path"
+                    value="{{ profile.avatar_path if profile.avatar_path else url_for('static', filename='images/default.png') }}">
+
+                <!-- Gender Selector -->
+                <div class="gender come-on-edit">
+                    <div class="male">Male</div>
+                    <div class="female">Female</div>
+                </div>
+
+                <!-- Info List -->
+                <div class="new-items">
+                    <div class="new-item">
+                        <div class="box-label-group">
+                            <span class="icon-wrapper"><ion-icon name="person-outline"></ion-icon></span>
+                            <span class="label-text">Name</span>
+                        </div>
+                        <span class="separator">:</span>
+                        <span class="value-text go-on-edit">{{ profile.name or 'N/A' }}</span>
+                        <span class="value-text come-on-edit">
+                            <input type="text" name="name" value="{{ profile.name or '' }}" placeholder="Enter Name">
+                        </span>
+                    </div>
+
+                    <div class="new-item">
+                        <div class="box-label-group">
+                            <span class="icon-wrapper"><ion-icon name="school-outline"></ion-icon></span>
+                            <span class="label-text">Class</span>
+                        </div>
+                        <span class="separator">:</span>
+                        <span class="value-text go-on-edit">{{ profile.class_val or 'N/A' }}</span>
+                        <span class="value-text come-on-edit">
+                            <input type="text" name="class" value="{{ profile.class_val or '' }}"
+                                placeholder="e.g. 10th">
+                        </span>
+                    </div>
+
+                    <div class="new-item">
+                        <div class="box-label-group">
+                            <span class="icon-wrapper"><ion-icon name="easel-outline"></ion-icon></span>
+                            <span class="label-text">Board</span>
+                        </div>
+                        <span class="separator">:</span>
+                        <span class="value-text go-on-edit">{{ profile.board or 'N/A' }}</span>
+                        <span class="value-text come-on-edit">
+                            <input type="text" name="board" value="{{ profile.board or '' }}" placeholder="e.g. CBSE">
+                        </span>
+                    </div>
+
+                    <div class="new-item">
+                        <div class="box-label-group">
+                            <span class="icon-wrapper"><ion-icon name="business-outline"></ion-icon></span>
+                            <span class="label-text">State</span>
+                        </div>
+                        <span class="separator">:</span>
+                        <span class="value-text go-on-edit">{{ profile.state or 'N/A' }}</span>
+                        <span class="value-text come-on-edit">
+                            <input type="text" name="state" value="{{ profile.state or '' }}" placeholder="e.g. Bihar">
+                        </span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit come-on-edit">Save Profile</button>
             </div>
+        </form>
 
-            <!-- Avatar Circle -->
-            <div class="avatar-wrapper">
-                <img id="avatar" src="{{ profile[5] if profile else url_for('static', filename='images/default.png') }}"
-                    alt="Avatar" class="avatar-circle">
-            </div>
-
-            <!-- Hidden field to store avatar path -->
-            <input type="hidden" name="avatar_path" id="avatar_path"
-                value="{{ profile[5] if profile else url_for('static', filename='images/default.png') }}">
-
-
-            <!-- Gender Buttons -->
-            <div class="gender come-on-edit">
-                <div class="male">Male</div>
-                <div class="female">Female</div>
-            </div>
-
-            <div class="new-items">
-                <!-- Name -->
-                <div class="new-item">
-                    <div class="box-label-group">
-                        <span class="icon-wrapper"><ion-icon name="person-outline"></ion-icon></span>
-                        <span class="label-text">Name</span>
-                    </div>
-                    <span class="separator">:</span>
-                    <span class="value-text go-on-edit">{{ profile[0] if profile else '' }}</span>
-                    <span class="value-text come-on-edit">
-                        <input type="text" name="name" id="name" value="{{ profile[0] if profile else '' }}"
-                            maxlength="25" placeholder="max 25 chars">
-                    </span>
-                </div>
-
-                <!-- Class -->
-                <div class="new-item">
-                    <div class="box-label-group">
-                        <span class="icon-wrapper"><ion-icon name="school-outline"></ion-icon></span>
-                        <span class="label-text">Class</span>
-                    </div>
-                    <span class="separator">:</span>
-                    <span class="value-text go-on-edit">{{ profile[1] if profile else '' }}</span>
-                    <span class="value-text come-on-edit">
-                        <input type="text" name="class" id="class" value="{{ profile[1] if profile else '' }}"
-                            maxlength="25" placeholder="max 25 chars">
-                    </span>
-                </div>
-
-                <!-- Board -->
-                <div class="new-item">
-                    <div class="box-label-group">
-                        <span class="icon-wrapper"><ion-icon name="easel-outline"></ion-icon></span>
-                        <span class="label-text">Board</span>
-                    </div>
-                    <span class="separator">:</span>
-                    <span class="value-text go-on-edit">{{ profile[2] if profile else '' }}</span>
-                    <span class="value-text come-on-edit">
-                        <input type="text" name="board" id="board" value="{{ profile[2] if profile else '' }}"
-                            maxlength="25" placeholder="max 25 chars">
-                    </span>
-                </div>
-
-                <!-- State -->
-                <div class="new-item">
-                    <div class="box-label-group">
-                        <span class="icon-wrapper"><ion-icon name="business-outline"></ion-icon></span>
-                        <span class="label-text">State</span>
-                    </div>
-                    <span class="separator">:</span>
-                    <span class="value-text go-on-edit">{{ profile[3] if profile else '' }}</span>
-                    <span class="value-text come-on-edit">
-                        <input type="text" name="state" id="state" value="{{ profile[3] if profile else '' }}"
-                            maxlength="25" placeholder="max 25 chars">
-                    </span>
-                </div>
-
-                <!-- Gmail -->
-                <div class="new-item">
-                    <div class="box-label-group">
-                        <span class="icon-wrapper"><ion-icon name="mail-outline"></ion-icon></span>
-                        <span class="label-text">Gmail</span>
-                    </div>
-                    <span class="separator">:</span>
-                    <span class="value-text go-on-edit">{{ profile[4] if profile else '' }}</span>
-                    <span class="value-text come-on-edit">
-                        <input type="text" name="gmail" id="gmail" value="{{ profile[4] if profile else '' }}"
-                            maxlength="25" placeholder="max 25 chars">
-                    </span>
-                </div>
-            </div>
-
-            <button type="submit" class="submit come-on-edit">Submit</button>
+        <div class="dashboard-actions">
+            {% if user.is_admin %}
+            <a href="{{ url_for('admin_dashboard') }}" class="btn-admin">Admin Pannel</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
         </div>
-    </form>
+    </div>
 
-    <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
-
-    <script>
-        function setAvatar(path) {
-            document.getElementById("avatar").src = path;
-            document.getElementById("avatar_path").value = path;
-        }
-        
-        document.querySelector(".male").addEventListener("click", () =>
-        setAvatar("{{ url_for('static', filename='images/male.png') }}"));
-        
-        document.querySelector(".female").addEventListener("click", () =>
-        setAvatar("{{ url_for('static', filename='images/female.png') }}"));
-        </script>
-        <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
-        <script src="{{ url_for('static', filename='css_and_js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='css_and_js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
 </body>
 
 </html>

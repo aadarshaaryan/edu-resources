@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>⚡ Admin Management</h1>
+            <a href="{{ url_for('dashboard') }}" class="back-link">
+                <ion-icon name="arrow-back-outline"></ion-icon> Dashboard
+            </a>
+        </header>
+
+        <div class="msg_wrapper">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for msg in messages %}
+            <div id="notify" class="notify">
+                <p style="margin: 0;">{{ msg }}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="admin-grid">
+            <!-- Subject Creation -->
+            <div class="card">
+                <h2>📚 Add New Subject</h2>
+                <form method="POST">
+                    <input type="hidden" name="action" value="add_subject">
+                    <div class="form-group">
+                        <label>Target Class</label>
+                        <select name="grade" required>
+                            {% for grade in grades %}
+                            <option value="{{ grade.value }}">Class {{ grade.value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject Name</label>
+                        <input type="text" name="subject_name" placeholder="e.g. Physics, Mathematics" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Subject</button>
+                </form>
+            </div>
+
+            <!-- PDF Upload -->
+            <div class="card">
+                <h2>📄 Upload Resource PDF</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="upload_resource">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" placeholder="e.g. Ch 1 Revision Sheet" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Subject</label>
+                        <select name="subject_id" required>
+                            {% for subject in subjects %}
+                            <option value="{{ subject.id }}">Class {{ subject.grade.value }} - {{ subject.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tier</label>
+                        <select name="tier">
+                            {% for tier in tiers %}
+                            <option value="{{ tier.value }}">{{ tier.value | capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>PDF Document</label>
+                        <input type="file" name="file" accept=".pdf" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Upload File</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resources Overview -->
+        <div class="card full-width">
+            <h2>Uploaded Documents</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Class & Subject</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in resources %}
+                    <tr>
+                        <td>{{ res.title }}</td>
+                        <td>Class {{ res.subject.grade.value }} - {{ res.subject.name }}</td>
+                        <td>
+                            <a href="{{ url_for('view_resources', subject_id=res.subject.id) }}">
+                                View Subject Page
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">No PDFs uploaded yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

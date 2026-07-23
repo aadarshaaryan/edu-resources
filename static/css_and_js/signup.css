@@ -37,64 +37,6 @@ body {
     padding: 1.5rem;
 }
 
-/* --------------------------- Interactive Flash Messages --------------------------- */
-.msg_wrapper {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2000;
-    width: 90%;
-    max-width: 350px;
-    display: flex;
-    justify-content: center;
-}
-
-.notify {
-    background: #ffffff;
-    border: 1px solid var(--accent-primary);
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    color: var(--text-main);
-    width: 100%;
-    text-align: center;
-    box-shadow: var(--shadow-md);
-    font-weight: 500;
-}
-
-.notify_come {
-    animation: notification_come 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.notify_go {
-    animation: notification_go 0.3s ease-in forwards;
-}
-
-@keyframes notification_come {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes notification_go {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-}
-
-/* --------------------------- Modern Form Card --------------------------- */
 .form-container {
     width: 100%;
     max-width: 400px;

@@ -27,7 +27,7 @@
     <header>
         <nav>
             <div>
-                <img class="logo" src="static/images/logo.svg" alt="Edu Resources Logo">
+                <img class="logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Edu Resources Logo">
             </div>
             <div class="nav-actions">
                 <a href="{{ url_for('dashboard') }}" title="Profile">
@@ -42,55 +42,51 @@
 
     <main>
         <div id="sidebar" class="sidebar">
-    <!-- Close / Cross Button -->
-    <div id="closeBtn" class="close-btn" title="Close Menu">
-        <ion-icon name="close-outline"></ion-icon>
-    </div>
-
-    <ul>
-        <a href="{{ url_for('home') }}">
-            <li>Home</li>
-        </a>
-        <a href="{{ url_for('dashboard') }}">
-            <li>Profile</li>
-        </a>
-        <a href="{{ url_for('ninth') }}">
-            <li>Class 9th</li>
-        </a>
-        <a href="{{ url_for('tenth') }}">
-            <li>Class 10th</li>
-        </a>
-        <a href="{{ url_for('twelth') }}">
-            <li>Class 12th</li>
-        </a>
-        <a href="">
-            <li>My Purchases</li>
-        </a>
-        <a href="">
-            <li>Support Helpdesk</li>
-        </a>
-    </ul>
-</div>
-
-        <div class="hero2 htanimate">
-            <div class="paid"><ion-icon name="diamond-outline" style="margin-right: 8px;"></ion-icon> Premium Tier</div>
-            <div class="free"><ion-icon name="document-text-outline" style="margin-right: 8px;"></ion-icon> Free Tier</div>
+            <div id="closeBtn" class="close-btn" title="Close Menu">
+                <ion-icon name="close-outline"></ion-icon>
+            </div>
+            <ul>
+                <a href="{{ url_for('home') }}">
+                    <li>Home</li>
+                </a>
+                <a href="{{ url_for('dashboard') }}">
+                    <li>Profile</li>
+                </a>
+                <a href="{{ url_for('ninth') }}">
+                    <li>Class 9th</li>
+                </a>
+                <a href="{{ url_for('tenth') }}">
+                    <li>Class 10th</li>
+                </a>
+                <a href="{{ url_for('twelth') }}">
+                    <li>Class 12th</li>
+                </a>
+                <a href="#">
+                    <li>My Purchases</li>
+                </a>
+                <a href="#">
+                    <li>Support Helpdesk</li>
+                </a>
+            </ul>
         </div>
 
         <div class="htanimate" style="margin-bottom: 1.5rem;">
-            <span style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;">🎯 BOARD EXAM SPECIAL</span>
+            <span
+                style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;">🎯
+                BOARD EXAM SPECIAL</span>
             <h3 style="display: block; margin-top: 0.5rem; margin-bottom: 0;">Class 10th Board Subjects & PYQs</h3>
         </div>
-        
+
+        <!-- Dynamic Subjects Loop -->
+        <!-- Dynamic Subjects Loop with Links -->
         <div class="hero3 htanimate">
-            <div class="subjects">Science (Theory & Lab)</div>
-            <div class="subjects">Mathematics (Standard & Basic)</div>
-            <div class="subjects">English Language & Literature</div>
-            <div class="subjects">Social Science (SST)</div>
-            <div class="subjects">Hindi (Course A & B)</div>
-            <div class="subjects">Computer Applications</div>
-            <div class="subjects">Artificial Intelligence (AI)</div>
-            <div class="subjects">10th Sample Papers & PYQs</div>
+            {% for subject in subjects %}
+            <a href="{{ url_for('view_resources', subject_id=subject.id) }}" class="subject-link">
+                <div class="subjects">{{ subject.name }}</div>
+            </a>
+            {% else %}
+            <div class="subjects">No subjects added yet. Add some from the Admin Panel!</div>
+            {% endfor %}
         </div>
     </main>
 
