@@ -104,10 +104,7 @@ def login():
 
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password_hash, password):
-            login_user(user)  # Correctly log user in with Flask-Login
-            session["user_id"] = user.id
-            session["username"] = user.username
-            session["is_admin"] = user.is_admin
+            login_user(user)  # Flask-Login handles session state automatically
             flash(f"Welcome back, {user.username}!")
             return redirect(url_for("admin_dashboard" if user.is_admin else "dashboard"))
 
@@ -121,7 +118,12 @@ def login():
 @login_required
 def dashboard():
     user = current_user
-    profile = user.profile or Profile(user_id=user.id)
+    profile = user.profile
+
+    if not profile:
+        profile = Profile(user_id=user.id)
+        db.session.add(profile)
+        db.session.commit()
 
     if request.method == "POST":
         profile.name = request.form.get("name")
@@ -130,11 +132,6 @@ def dashboard():
         profile.state = request.form.get("state")
         profile.avatar_path = request.form.get("avatar_path")
 
-        # Set gmail if column exists on Profile model
-        if hasattr(profile, 'gmail'):
-            profile.gmail = request.form.get("gmail")
-
-        db.session.add(profile)
         db.session.commit()
         flash("Profile updated successfully ✅")
 
@@ -152,10 +149,13 @@ def admin_dashboard():
             name = request.form.get("subject_name")
             grade = request.form.get("grade")
             if name and grade:
-                subject = Subject(name=name, grade=GradeLevel(grade))
-                db.session.add(subject)
-                db.session.commit()
-                flash("Subject added successfully!")
+                try:
+                    subject = Subject(name=name, grade=GradeLevel(grade))
+                    db.session.add(subject)
+                    db.session.commit()
+                    flash("Subject added successfully!")
+                except ValueError:
+                    flash("Invalid grade level selected.")
 
         elif action == "upload_resource":
             title = request.form.get("title")
@@ -164,7 +164,7 @@ def admin_dashboard():
 
             if file and file.filename.lower().endswith('.pdf') and title and subject_id:
                 try:
-                    # Generate a unique public_id with .pdf extension for Cloudinary
+                    # Unique public_id with .pdf extension for Cloudinary
                     unique_filename = f"{uuid.uuid4().hex}.pdf"
                     upload_result = cloudinary.uploader.upload(
                         file,
@@ -213,14 +213,13 @@ def tenth():
 
 @app.route("/twelth")
 def twelth():
-    # Fixed typo from GradeLevel.TWELTH to GradeLevel.TWELFTH
     subjects = Subject.query.filter_by(grade=GradeLevel.TWELFTH).all()
     return render_template("twelth.html", subjects=subjects)
 
 
 @app.route("/logout")
 def logout():
-    logout_user()  # Logout via Flask-Login
+    logout_user()
     session.clear()
     flash("Logged out successfully.")
     return redirect(url_for("login"))
@@ -228,7 +227,6 @@ def logout():
 
 @app.route('/subject/<int:subject_id>/resources')
 def view_resources(subject_id):
-    # Updated to modern SQLAlchemy 2.0 getter
     subject = db.get_or_404(Subject, subject_id)
     resources = Resource.query.filter_by(subject_id=subject.id).all()
     
