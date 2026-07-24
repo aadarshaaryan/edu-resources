@@ -1,4 +1,5 @@
 import os
+import uuid
 from functools import wraps
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,7 +8,7 @@ from dotenv import load_dotenv
 import cloudinary
 import cloudinary.uploader
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from models import db, User, Profile, Subject, Resource, GradeLevel, TierType
+from models import db, User, Profile, Subject, Resource, GradeLevel
 
 # Load environment variables from .env file
 load_dotenv()
@@ -20,6 +21,12 @@ app.secret_key = os.getenv("SECRET_KEY", "edu_resources_secret_key_2026")
 # Database URI (Supabase PostgreSQL via .env)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Enable pre-pinging to handle idle pooler disconnects gracefully
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_pre_ping': True,
+    'pool_recycle': 300,  # Recycle connections every 5 minutes
+}
 
 # Configure Cloudinary SDK
 cloudinary.config(
@@ -41,14 +48,14 @@ login_manager.login_view = "login"
 def load_user(user_id):
     return db.session.get(User, int(user_id))
 
+
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if "user_id" not in session:
+        if not current_user.is_authenticated:
             flash("Please log in first.")
             return redirect(url_for("login"))
-        user = db.session.get(User, session["user_id"])
-        if not user or not user.is_admin:
+        if not current_user.is_admin:
             flash("Access denied. Admin privileges required.")
             return redirect(url_for("dashboard"))
         return f(*args, **kwargs)
@@ -97,6 +104,7 @@ def login():
 
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password_hash, password):
+            login_user(user)  # Correctly log user in with Flask-Login
             session["user_id"] = user.id
             session["username"] = user.username
             session["is_admin"] = user.is_admin
@@ -110,12 +118,9 @@ def login():
 
 
 @app.route("/dashboard", methods=["GET", "POST"])
+@login_required
 def dashboard():
-    if "user_id" not in session:
-        flash("Please log in first.")
-        return redirect(url_for("login"))
-
-    user = db.session.get(User, session["user_id"])
+    user = current_user
     profile = user.profile or Profile(user_id=user.id)
 
     if request.method == "POST":
@@ -123,8 +128,11 @@ def dashboard():
         profile.class_val = request.form.get("class")
         profile.board = request.form.get("board")
         profile.state = request.form.get("state")
-        profile.gmail = request.form.get("gmail")
         profile.avatar_path = request.form.get("avatar_path")
+
+        # Set gmail if column exists on Profile model
+        if hasattr(profile, 'gmail'):
+            profile.gmail = request.form.get("gmail")
 
         db.session.add(profile)
         db.session.commit()
@@ -152,24 +160,24 @@ def admin_dashboard():
         elif action == "upload_resource":
             title = request.form.get("title")
             subject_id = request.form.get("subject_id")
-            tier = request.form.get("tier", "free")
             file = request.files.get("file")
 
             if file and file.filename.lower().endswith('.pdf') and title and subject_id:
                 try:
+                    # Generate a unique public_id with .pdf extension for Cloudinary
+                    unique_filename = f"{uuid.uuid4().hex}.pdf"
                     upload_result = cloudinary.uploader.upload(
                         file,
-                        resource_type="image",
-                        format="pdf",
-                        folder="edu_resources_pdfs"
+                        resource_type="raw",
+                        folder="edu_resources_pdfs",
+                        public_id=unique_filename
                     )
-                    
+
                     cloudinary_url = upload_result.get("secure_url")
 
                     resource = Resource(
                         title=title,
                         file_path=cloudinary_url,
-                        tier=TierType(tier),
                         subject_id=int(subject_id)
                     )
                     db.session.add(resource)
@@ -186,8 +194,7 @@ def admin_dashboard():
         "admin.html", 
         subjects=subjects, 
         resources=resources, 
-        grades=GradeLevel, 
-        tiers=TierType
+        grades=GradeLevel
     )
 
 
@@ -206,12 +213,14 @@ def tenth():
 
 @app.route("/twelth")
 def twelth():
+    # Fixed typo from GradeLevel.TWELTH to GradeLevel.TWELFTH
     subjects = Subject.query.filter_by(grade=GradeLevel.TWELFTH).all()
     return render_template("twelth.html", subjects=subjects)
 
 
 @app.route("/logout")
 def logout():
+    logout_user()  # Logout via Flask-Login
     session.clear()
     flash("Logged out successfully.")
     return redirect(url_for("login"))
@@ -219,15 +228,11 @@ def logout():
 
 @app.route('/subject/<int:subject_id>/resources')
 def view_resources(subject_id):
-    subject = Subject.query.get_or_404(subject_id)
+    # Updated to modern SQLAlchemy 2.0 getter
+    subject = db.get_or_404(Subject, subject_id)
     resources = Resource.query.filter_by(subject_id=subject.id).all()
     
-    # Check if the currently logged-in user is an admin
-    is_admin = False
-    if "user_id" in session:
-        user = db.session.get(User, session["user_id"])
-        if user and user.is_admin:
-            is_admin = True
+    is_admin = current_user.is_authenticated and current_user.is_admin
             
     return render_template('resources.html', subject=subject, resources=resources, is_admin=is_admin)
 
