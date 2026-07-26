@@ -234,6 +234,28 @@ def view_resources(subject_id):
             
     return render_template('resources.html', subject=subject, resources=resources, is_admin=is_admin)
 
+@app.route("/admin/delete_resource/<int:resource_id>", methods=["POST"])
+@admin_required
+def delete_resource(resource_id):
+    resource = db.get_or_404(Resource, resource_id)
+
+    try:
+        if "cloudinary.com" in resource.file_path:
+            url_parts = resource.file_path.split("/")
+            folder_and_file = "/".join(url_parts[-2:])
+            public_id = folder_and_file.rsplit('.', 1)[0]
+
+            cloudinary.uploader.destroy(public_id, resource_type="raw")
+    except Exception as e:
+        print(f"Cloudinary deletion log: {e}")
+
+    # Remove record from database
+    db.session.delete(resource)
+    db.session.commit()
+
+    flash("Resource deleted successfully! 🗑️")
+    return redirect(url_for('admin_dashboard'))
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

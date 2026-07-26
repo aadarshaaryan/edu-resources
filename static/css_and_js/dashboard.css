@@ -37,7 +37,7 @@ body {
 }
 
 .home-back {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   color: var(--text-dark);
   transition: transform 0.2s ease, color 0.2s ease;
 }
@@ -84,8 +84,7 @@ body {
 .cont {
   background-color: rgba(255, 255, 255, 0.95);
   box-shadow: 0 10px 30px rgba(163, 131, 214, 0.25);
-  width: 100%;
-  max-width: 380px;
+  width: 280px;
   border-radius: 28px;
   border: 1px solid var(--border-light);
   overflow: hidden;
