@@ -4,12 +4,12 @@
 <head>
 
     <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xrfoioai95");
-</script>
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "xrfoioai95");
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edu-Resources | Class 10th Board Hub</title>
@@ -53,27 +53,28 @@
             <div id="closeBtn" class="close-btn" title="Close Menu">
                 <ion-icon name="close-outline"></ion-icon>
             </div>
+
             <ul>
                 <a href="{{ url_for('home') }}">
-                    <li>Home</li>
+                    <li><ion-icon name="home-outline"></ion-icon> Home</li>
                 </a>
                 <a href="{{ url_for('dashboard') }}">
-                    <li>Profile</li>
+                    <li><ion-icon name="person-outline"></ion-icon> Profile</li>
                 </a>
                 <a href="{{ url_for('ninth') }}">
-                    <li>Class 9th</li>
+                    <li><ion-icon name="book-outline"></ion-icon> Class 9th</li>
                 </a>
                 <a href="{{ url_for('tenth') }}">
-                    <li>Class 10th</li>
+                    <li><ion-icon name="school-outline"></ion-icon> Class 10th</li>
                 </a>
                 <a href="{{ url_for('twelth') }}">
-                    <li>Class 12th</li>
+                    <li><ion-icon name="library-outline"></ion-icon> Class 12th</li>
                 </a>
-                <a href="#">
-                    <li>My Purchases</li>
+                <a href="{{ url_for('premium') }}">
+                    <li><ion-icon name="sparkles-outline" style="color: #f59e0b;"></ion-icon>Premium Materials</li>
                 </a>
-                <a href="#">
-                    <li>Support Helpdesk</li>
+                <a href="{{ url_for('support') }}">
+                    <li><ion-icon name="headset-outline"></ion-icon> Support Helpdesk</li>
                 </a>
             </ul>
         </div>
@@ -99,6 +100,7 @@
     </main>
 
     <script src="{{ url_for('static', filename='css_and_js/nav.js') }}"></script>
+    <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
 </body>
 
 </html>

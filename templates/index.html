@@ -11,7 +11,8 @@
         })(window, document, "clarity", "script", "xrfoioai95");
     </script>
 
-    <meta name="google-site-verification" content="7hA14zrI3KPe9pz3kzccZwrZg3jLvPyK0oV6NbOMkUQ" />    <!-- Basic Meta Tags -->
+    <meta name="google-site-verification" content="7hA14zrI3KPe9pz3kzccZwrZg3jLvPyK0oV6NbOMkUQ" />
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,7 +36,7 @@
     <meta property="og:title" content="Edu-Resources | Free Study Materials & PDF Notes">
     <meta property="og:description"
         content="Download free study notes, revision sheets, and educational resources for Class 9th, 10th, and 12th students.">
-    <meta property="og:image" content="https://edu-resources-engn.onrender.comstatic/images/og-cover.svg">
+    <meta property="og:image" content="https://edu-resources-engn.onrender.com/static/images/og-cover.svg">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
@@ -43,14 +44,15 @@
     <meta name="twitter:title" content="Edu-Resources | Free Study Materials & PDF Notes">
     <meta name="twitter:description"
         content="Download free study notes, revision sheets, and educational resources for Class 9th, 10th, and 12th students.">
-    <meta name="twitter:image" content="https://edu-resources-engn.onrender.comstatic/images/og-cover.svg">
+    <meta name="twitter:image" content="https://edu-resources-engn.onrender.com/static/images/og-cover.svg">
 
     <!-- Favicons & Icons -->
-    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.svg">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.svg') }}">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/static/css_and_js/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Performance Optimization (Preconnects) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,7 +65,7 @@
       "@type": "EducationalOrganization",
       "name": "Edu-Resources",
       "url": "https://edu-resources-engn.onrender.com",
-      "logo": "https://edu-resources-engn.onrender.comstatic/images/logo.svg",
+      "logo": "https://edu-resources-engn.onrender.com/static/images/logo.svg",
       "description": "Providing high-quality educational study materials and PDF resources for Class 9, 10, and 12 high school students.",
       "sameAs": []
     }
@@ -89,7 +91,7 @@
     <header>
         <nav>
             <div class="logo-container">
-                <img class="logo" src="static/images/logo.svg" alt="Edu Resources Logo">
+                <img class="logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Edu Resources Logo">
             </div>
             <div class="nav-actions">
                 <a href="{{ url_for('dashboard') }}" title="Profile">
@@ -136,7 +138,7 @@
                 </a>
             </div>
 
-            <div class="tier-grid">
+            <a href="{{ url_for('premium') }}" style="text-decoration: none;">
                 <div class="tier-card premium">
                     <div class="tier-icon">
                         <ion-icon name="diamond-outline"></ion-icon>
@@ -145,40 +147,40 @@
                         <h3>Premium Materials</h3>
                         <p>Unlock deep-dive mock exams, ultimate revision sheets, and hyper-targeted test preparation
                             guides.</p>
-                        <a href="#" class="explore-link">Go Premium <ion-icon
-                                name="arrow-forward-outline"></ion-icon></a>
+                        <span class="explore-link">
+                            Explore Vault <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </span>
                     </div>
                 </div>
-            </div>
+            </a>
         </section>
 
         <div id="sidebar" class="sidebar">
-            <!-- Close / Cross Button -->
             <div id="closeBtn" class="close-btn" title="Close Menu">
                 <ion-icon name="close-outline"></ion-icon>
             </div>
 
             <ul>
                 <a href="{{ url_for('home') }}">
-                    <li>Home</li>
+                    <li><ion-icon name="home-outline"></ion-icon> Home</li>
                 </a>
                 <a href="{{ url_for('dashboard') }}">
-                    <li>Profile</li>
+                    <li><ion-icon name="person-outline"></ion-icon> Profile</li>
                 </a>
                 <a href="{{ url_for('ninth') }}">
-                    <li>Class 9th</li>
+                    <li><ion-icon name="book-outline"></ion-icon> Class 9th</li>
                 </a>
                 <a href="{{ url_for('tenth') }}">
-                    <li>Class 10th</li>
+                    <li><ion-icon name="school-outline"></ion-icon> Class 10th</li>
                 </a>
                 <a href="{{ url_for('twelth') }}">
-                    <li>Class 12th</li>
+                    <li><ion-icon name="library-outline"></ion-icon> Class 12th</li>
                 </a>
-                <a href="">
-                    <li>My Purchases</li>
+                <a href="{{ url_for('premium') }}">
+                    <li><ion-icon name="sparkles-outline" style="color: #f59e0b;"></ion-icon>Premium Materials</li>
                 </a>
-                <a href="">
-                    <li>Support Helpdesk</li>
+                <a href="{{ url_for('support') }}">
+                    <li><ion-icon name="headset-outline"></ion-icon> Support Helpdesk</li>
                 </a>
             </ul>
         </div>
@@ -193,35 +195,45 @@
                 <p>Your trusted academic partner in rewriting potential into progress. Learn Smart, Achieve More.</p>
             </div>
             <div class="footer-links">
-                <h4>Quick Access</h4>
+                <h4>Academic Materials</h4>
                 <ul>
-                    <li>Home Feed</li>
-                    <li>Resource Catalog</li>
-                    <li>Free Tier Documents</li>
-                    <li>Premium Tier Packages</li>
+                    <li><a href="{{ url_for('ninth') }}">Class 9th Notes</a></li>
+                    <li><a href="{{ url_for('tenth') }}">Class 10th Notes</a></li>
+                    <li><a href="{{ url_for('twelth') }}">Class 12th Notes</a></li>
+                    <li><a href="{{ url_for('premium') }}">Premium Vault</a></li>
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Support Hub</h4>
+                <h4>Community & Support</h4>
                 <ul>
-                    <li>Contact Support Team</li>
-                    <li>Terms of Service</li>
-                    <li>Privacy Protocols</li>
+                    <li><a href="{{ url_for('support') }}#support">Telegram Support</a></li>
+                    <li><a href="{{ url_for('support') }}">YouTube Channel</a></li>
+                    <li><a href="{{ url_for('support') }}">Instagram Updates</a></li>
+                    <li><a href="{{ url_for('support') }}">Helpdesk</a></li>
                 </ul>
                 <div class="social-icons">
-                    <ion-icon name="logo-github"></ion-icon>
-                    <ion-icon name="logo-linkedin"></ion-icon>
-                    <ion-icon name="logo-twitter"></ion-icon>
+                    <a href="https://t.me/Edureso" target="_blank" rel="noopener" title="Telegram Channel">
+                        <i class="fa-brands fa-telegram"></i>
+                    </a>
+                    <a href="https://youtube.com/@neerajmotex?si=WZAElbg7YH1e8v6J" target="_blank" rel="noopener"
+                        title="YouTube Channel">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <a href="https://www.instagram.com/neeraj_z1?igsh=ZTNrNzNkM3lsMjho" target="_blank" rel="noopener"
+                        title="Instagram Profile">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Neeraj Srivastava. All rights reserved.</p>
+            <p>© 2026 Edu Resources. All rights reserved.</p>
             <p>Engineered with ❤️ for Students</p>
         </div>
     </footer>
 
     <script src="{{ url_for('static', filename='css_and_js/nav.js') }}"></script>
+    <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
 </body>
 
 </html>

@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <script type="text/javascript">
         (function (c, l, a, r, i, t, y) {
             c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
@@ -26,7 +25,8 @@
         {% if messages %}
         {% for msg in messages %}
         <div id="notify" class="notify">
-            <p>{{ msg }}</p>
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <p style="margin: 0;">{{ msg }}</p>
         </div>
         {% endfor %}
         {% endif %}
@@ -34,19 +34,19 @@
     </div>
 
     <!-- Top Navigation -->
-    <a href="{{ url_for('home') }}" class="home-back-link">
+    <a href="{{ url_for('home') }}" class="home-back-link" title="Return Home">
         <ion-icon class="home-back" name="home-sharp"></ion-icon>
     </a>
 
     <div class="dashboard-wrapper">
-        <form method="POST" action="{{ url_for('dashboard') }}">
+        <form method="POST" action="{{ url_for('dashboard') }}" class="profile-form">
             <div class="cont">
                 <!-- Header / Edit toggle -->
                 <div class="items">
-                    <div class="item">Profile</div>
-                    <div class="edit item">
+                    <h2 class="item title">Profile</h2>
+                    <button type="button" class="edit item">
                         <ion-icon name="create-outline"></ion-icon><span>Edit</span>
-                    </div>
+                    </button>
                 </div>
 
                 <!-- Avatar Section -->
@@ -60,8 +60,8 @@
 
                 <!-- Gender Selector -->
                 <div class="gender come-on-edit">
-                    <div class="male">Male</div>
-                    <div class="female">Female</div>
+                    <button type="button" class="male">Male</button>
+                    <button type="button" class="female">Female</button>
                 </div>
 
                 <!-- Info List -->
@@ -86,8 +86,7 @@
                         <span class="separator">:</span>
                         <span class="value-text go-on-edit">{{ profile.class_val or 'N/A' }}</span>
                         <span class="value-text come-on-edit">
-                            <input type="text" name="class" value="{{ profile.class_val or '' }}"
-                                placeholder="e.g. 10th">
+                            <input type="text" name="class" value="{{ profile.class_val or '' }}" placeholder="e.g. 10th">
                         </span>
                     </div>
 
@@ -116,15 +115,21 @@
                     </div>
                 </div>
 
-                <button type="submit" class="submit come-on-edit">Save Profile</button>
+                <button type="submit" class="submit come-on-edit">
+                    <ion-icon name="save-outline"></ion-icon> Save Profile
+                </button>
             </div>
         </form>
 
         <div class="dashboard-actions">
             {% if user.is_admin %}
-            <a href="{{ url_for('admin_dashboard') }}" class="btn-admin">Admin Pannel</a>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn-admin">
+                <ion-icon name="shield-checkmark-outline"></ion-icon> Admin Panel
+            </a>
             {% endif %}
-            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+            <a href="{{ url_for('logout') }}" class="btn-logout">
+                <ion-icon name="log-out-outline"></ion-icon> Logout
+            </a>
         </div>
     </div>
 

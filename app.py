@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import cloudinary
 import cloudinary.uploader
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from models import db, User, Profile, Subject, Resource, GradeLevel
+from models import db, User, Profile, Subject, Resource, GradeLevel, TierType
 
 # Load environment variables from .env file
 load_dotenv()
@@ -164,12 +164,11 @@ def admin_dashboard():
 
             if file and file.filename.lower().endswith('.pdf') and title and subject_id:
                 try:
-                    # Unique public_id with .pdf extension for Cloudinary
                     unique_filename = f"{uuid.uuid4().hex}.pdf"
                     upload_result = cloudinary.uploader.upload(
                         file,
                         resource_type="raw",
-                        folder="edu_resources_pdfs",
+                        folder="edu_resources_pdfs/free",
                         public_id=unique_filename
                     )
 
@@ -178,11 +177,43 @@ def admin_dashboard():
                     resource = Resource(
                         title=title,
                         file_path=cloudinary_url,
-                        subject_id=int(subject_id)
+                        subject_id=int(subject_id),
+                        tier=TierType.FREE
                     )
                     db.session.add(resource)
                     db.session.commit()
-                    flash("PDF uploaded successfully! 🚀")
+                    flash("Free PDF uploaded successfully! 🚀")
+                except Exception as e:
+                    flash(f"Cloudinary upload failed: {str(e)}")
+            else:
+                flash("Invalid file format. Please upload a valid PDF.")
+
+        elif action == "upload_premium_resource":
+            title = request.form.get("title")
+            subject_id = request.form.get("subject_id")
+            file = request.files.get("file")
+
+            if file and file.filename.lower().endswith('.pdf') and title and subject_id:
+                try:
+                    unique_filename = f"premium_{uuid.uuid4().hex}.pdf"
+                    upload_result = cloudinary.uploader.upload(
+                        file,
+                        resource_type="raw",
+                        folder="edu_resources_pdfs/premium",
+                        public_id=unique_filename
+                    )
+
+                    cloudinary_url = upload_result.get("secure_url")
+
+                    resource = Resource(
+                        title=title,
+                        file_path=cloudinary_url,
+                        subject_id=int(subject_id),
+                        tier=TierType.PREMIUM
+                    )
+                    db.session.add(resource)
+                    db.session.commit()
+                    flash("Premium PDF uploaded successfully! 👑")
                 except Exception as e:
                     flash(f"Cloudinary upload failed: {str(e)}")
             else:
@@ -196,6 +227,13 @@ def admin_dashboard():
         resources=resources, 
         grades=GradeLevel
     )
+
+
+# --- PREMIUM VAULT DISPLAY ROUTE ---
+@app.route("/premium")
+def premium():
+    premium_resources = Resource.query.filter_by(tier=TierType.PREMIUM).all()
+    return render_template("premium.html", resources=premium_resources)
 
 
 # --- CLASS RESOURCE DISPLAY ROUTES ---
@@ -234,6 +272,7 @@ def view_resources(subject_id):
             
     return render_template('resources.html', subject=subject, resources=resources, is_admin=is_admin)
 
+
 @app.route("/admin/delete_resource/<int:resource_id>", methods=["POST"])
 @admin_required
 def delete_resource(resource_id):
@@ -249,12 +288,16 @@ def delete_resource(resource_id):
     except Exception as e:
         print(f"Cloudinary deletion log: {e}")
 
-    # Remove record from database
     db.session.delete(resource)
     db.session.commit()
 
     flash("Resource deleted successfully! 🗑️")
     return redirect(url_for('admin_dashboard'))
+
+@app.route("/support")
+def support():
+    return render_template("support-helpdesk.html")
+
 
 
 if __name__ == "__main__":

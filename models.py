@@ -29,7 +29,6 @@ class User(db.Model, UserMixin):
 
     # Relationships
     profile = db.relationship('Profile', backref='user', uselist=False, cascade="all, delete-orphan")
-    purchases = db.relationship('Purchase', backref='user', lazy=True, cascade="all, delete-orphan")
 
 
 class Profile(db.Model):
@@ -63,15 +62,5 @@ class Resource(db.Model):
     title = db.Column(db.String(150), nullable=False)
     file_path = db.Column(db.String(255), nullable=False)
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'), nullable=False)
+    tier = db.Column(db.Enum(TierType, native_enum=False), default=TierType.FREE, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-
-class Purchase(db.Model):
-    __tablename__ = 'purchases'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    resource_id = db.Column(db.Integer, db.ForeignKey('resources.id'), nullable=True)
-    amount_paid = db.Column(db.Numeric(10, 2), nullable=False)
-    transaction_id = db.Column(db.String(100), unique=True, nullable=False)
-    purchased_at = db.Column(db.DateTime, default=datetime.utcnow)

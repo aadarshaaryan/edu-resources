@@ -7,7 +7,6 @@
     <title>Admin Control Panel</title>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/admin.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
     
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -21,7 +20,7 @@
                 <h1>Admin Control Center</h1>
             </div>
             <a href="{{ url_for('dashboard') }}" class="back-link">
-                <ion-icon name="arrow-back-outline"></ion-icon> Dashboard
+                <ion-icon name="arrow-back-outline"></ion-icon> <span>Dashboard</span>
             </a>
         </header>
 
@@ -60,9 +59,9 @@
                 </form>
             </div>
 
-            <!-- PDF Upload -->
+            <!-- Free PDF Upload -->
             <div class="card card-upload">
-                <h2><span class="card-icon">📄</span> Upload Resource PDF</h2>
+                <h2><span class="card-icon">📄</span> Upload Free PDF</h2>
                 <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="upload_resource">
                     <div class="form-group">
@@ -73,8 +72,7 @@
                         <label>Select Subject</label>
                         <select name="subject_id" required>
                             {% for subject in subjects %}
-                            <option value="{{ subject.id }}">Class {{ subject.grade.value }} - {{ subject.name }}
-                            </option>
+                            <option value="{{ subject.id }}">Class {{ subject.grade.value }} - {{ subject.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -83,6 +81,31 @@
                         <input type="file" name="file" accept=".pdf" required>
                     </div>
                     <button type="submit" class="btn-primary btn-gradient-blue">Upload File</button>
+                </form>
+            </div>
+
+            <!-- Premium PDF Upload -->
+            <div class="card card-premium">
+                <h2><span class="card-icon">💎</span> Upload Premium PDF</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="upload_premium_resource">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" placeholder="e.g. Ultimate Formula Sheet" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Subject</label>
+                        <select name="subject_id" required>
+                            {% for subject in subjects %}
+                            <option value="{{ subject.id }}">Class {{ subject.grade.value }} - {{ subject.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>PDF Document</label>
+                        <input type="file" name="file" accept=".pdf" required>
+                    </div>
+                    <button type="submit" class="btn-primary btn-gradient-gold">Upload Premium File</button>
                 </form>
             </div>
         </div>
@@ -99,23 +122,31 @@
                         <tr>
                             <th>Title</th>
                             <th>Class & Subject</th>
+                            <th>Type</th>
                             <th style="text-align: right;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for res in resources %}
                         <tr>
-                            <td>
+                            <td data-label="Title">
                                 <div class="file-title">
                                     <ion-icon name="document-text-outline" class="file-icon"></ion-icon>
                                     <strong>{{ res.title }}</strong>
                                 </div>
                             </td>
-                            <td>
+                            <td data-label="Class & Subject">
                                 <span class="subject-tag">Class {{ res.subject.grade.value }}</span>
                                 <span class="subject-name">{{ res.subject.name }}</span>
                             </td>
-                            <td style="text-align: right;">
+                            <td data-label="Type">
+                                {% if res.tier.value == 'premium' %}
+                                <span class="badge premium">💎 Premium</span>
+                                {% else %}
+                                <span class="badge free">Free</span>
+                                {% endif %}
+                            </td>
+                            <td data-label="Action" class="action-td">
                                 <div class="action-cell">
                                     <a href="{{ url_for('view_resources', subject_id=res.subject.id) }}" class="btn-action btn-view">
                                         <ion-icon name="eye-outline"></ion-icon> View
@@ -131,7 +162,7 @@
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="3" class="empty-state">
+                            <td colspan="4" class="empty-state">
                                 <ion-icon name="folder-open-outline" class="empty-icon"></ion-icon>
                                 <p>No PDFs uploaded yet.</p>
                             </td>
@@ -142,6 +173,7 @@
             </div>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
 </body>
 
 </html>

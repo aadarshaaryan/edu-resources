@@ -1,0 +1,188 @@
+.contact-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+.contact-header {
+    border-bottom: 2px dashed #e2e8f0;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.contact-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.contact-title .highlight {
+    color: #4f46e5;
+}
+
+.contact-subtitle {
+    color: #64748b;
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+.social-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.social-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.card-brand-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-icon {
+    font-size: 1.8rem;
+    transition: transform 0.2s ease;
+}
+
+.social-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* --- Brand Icon Colors --- */
+.social-card.telegram .brand-icon {
+    color: #0088cc;
+}
+
+.social-card.youtube .brand-icon {
+    color: #FF0000;
+}
+
+.social-card.instagram .brand-icon {
+    color: #E1306C;
+}
+
+/* --- Custom Hover Borders & Visual Elevation --- */
+.social-card:hover {
+    transform: translateY(-5px);
+}
+
+.social-card.telegram:hover {
+    border-color: #0088cc;
+    box-shadow: 0 10px 25px rgba(0, 136, 204, 0.15);
+}
+
+.social-card.youtube:hover {
+    border-color: #FF0000;
+    box-shadow: 0 10px 25px rgba(255, 0, 0, 0.15);
+}
+
+.social-card.instagram:hover {
+    border-color: #E1306C;
+    box-shadow: 0 10px 25px rgba(225, 48, 108, 0.15);
+}
+
+.social-card:hover .brand-icon {
+    transform: scale(1.12);
+}
+
+.social-handle {
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4f46e5;
+    word-break: break-all;
+}
+
+.social-desc {
+    color: #475569;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.social-action {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #64748b;
+    transition: color 0.2s ease;
+}
+
+.social-card:hover .social-action {
+    color: #0f172a;
+}
+
+/* --- Base Watermark Background Structure --- */
+.social-card::after {
+    font-family: "Font Awesome 6 Brands";
+    font-weight: 900;
+    position: absolute;
+    right: -15px;
+    bottom: -15px;
+    font-size: 8.5rem;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: -1;
+    transform: rotate(-15deg);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+/* FontAwesome Unicode Mappings for Background Watermarks */
+.social-card.telegram::after {
+    content: "\f2c6";
+    color: #0088cc;
+}
+
+.social-card.youtube::after {
+    content: "\f167";
+    color: #FF0000;
+}
+
+.social-card.instagram::after {
+    content: "\f16d";
+    color: #E1306C;
+}
+
+.social-card:hover::after {
+    opacity: 0.1;
+    transform: rotate(0deg) scale(1.1) translate(-5px, -5px);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 480px) {
+    .contact-section {
+        padding: 3rem 1rem;
+    }
+
+    .contact-title {
+        font-size: 1.8rem;
+    }
+
+    .social-links-grid {
+        grid-template-columns: 1fr;
+    }
+}

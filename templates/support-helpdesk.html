@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edu-Resources | Connect & Support</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/support-helpdesk.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div>
+                <img class="logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Edu Resources Logo">
+            </div>
+            <div class="nav-actions">
+                <a href="{{ url_for('dashboard') }}" title="Profile">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                </a>
+                <div id="toggleBtn" title="Menu">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="sidebar" class="sidebar">
+        <div id="closeBtn" class="close-btn" title="Close Menu">
+            <ion-icon name="close-outline"></ion-icon>
+        </div>
+
+        <ul>
+            <a href="{{ url_for('home') }}">
+                <li><ion-icon name="home-outline"></ion-icon> Home</li>
+            </a>
+            <a href="{{ url_for('dashboard') }}">
+                <li><ion-icon name="person-outline"></ion-icon> Profile</li>
+            </a>
+            <a href="{{ url_for('ninth') }}">
+                <li><ion-icon name="book-outline"></ion-icon> Class 9th</li>
+            </a>
+            <a href="{{ url_for('tenth') }}">
+                <li><ion-icon name="school-outline"></ion-icon> Class 10th</li>
+            </a>
+            <a href="{{ url_for('twelth') }}">
+                <li><ion-icon name="library-outline"></ion-icon> Class 12th</li>
+            </a>
+            <a href="{{ url_for('premium') }}">
+                <li><ion-icon name="sparkles-outline" style="color: #f59e0b;"></ion-icon>Premium Materials</li>
+            </a>
+            <a href="{{ url_for('support') }}">
+                <li><ion-icon name="headset-outline"></ion-icon> Support Helpdesk</li>
+            </a>
+        </ul>
+    </div>
+
+    <div class="contact-section">
+
+        <div class="contact-header">
+            <h1 class="contact-title">Connect <span class="highlight">With Us</span></h1>
+            <p class="contact-subtitle">Stay updated, ask questions, and download resources across our official
+                community channels.</p>
+        </div>
+
+        <div class="social-links-grid">
+
+            <!-- Telegram Channel (Contains id="support") -->
+            <a href="https://t.me/Edureso" target="_blank" rel="noopener" class="social-card telegram" id="support">
+                <div class="card-brand-header">
+                    <i class="fa-brands fa-telegram brand-icon"></i>
+                    <h3 class="social-name">Telegram</h3>
+                </div>
+                <span class="social-handle">t.me/Edureso</span>
+                <p class="social-desc">Join our main channel for instant PDF note alerts, formula sheets, updates, and
+                    study material drops.</p>
+                <div class="social-action">Join Channel &rarr;</div>
+            </a>
+
+            <!-- YouTube Channel -->
+            <a href="https://youtube.com/@neerajmotex?si=WZAElbg7YH1e8v6J" target="_blank" rel="noopener"
+                class="social-card youtube">
+                <div class="card-brand-header">
+                    <i class="fa-brands fa-youtube brand-icon"></i>
+                    <h3 class="social-name">YouTube</h3>
+                </div>
+                <span class="social-handle">@neerajmotex</span>
+                <p class="social-desc">Watch video lectures, detailed solution walkthroughs, exam strategies, and
+                    educational guides.</p>
+                <div class="social-action">Subscribe Now &rarr;</div>
+            </a>
+
+            <!-- Instagram Profile -->
+            <a href="https://www.instagram.com/neeraj_z1?igsh=ZTNrNzNkM3lsMjho" target="_blank" rel="noopener"
+                class="social-card instagram">
+                <div class="card-brand-header">
+                    <i class="fa-brands fa-instagram brand-icon"></i>
+                    <h3 class="social-name">Instagram</h3>
+                </div>
+                <span class="social-handle">@neeraj_z1</span>
+                <p class="social-desc">Follow for daily quick tips, behind-the-scenes content, announcements, and direct
+                    messaging support.</p>
+                <div class="social-action">Follow Profile &rarr;</div>
+            </a>
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='css_and_js/nav.js') }}"></script>
+    <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
+</body>
+
+</html>

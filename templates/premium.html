@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edu-Resources | Premium Vault 👑</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/tenth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <style>
+        .premium-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(30, 27, 75, 0.2);
+        }
+
+        .premium-banner h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fbbf24;
+            margin: 0 0 0.4rem 0;
+        }
+
+        .premium-banner p {
+            margin: 0;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pdf-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.25rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pdf-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .pdf-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .badge-subject {
+            background: #fef3c7;
+            color: #b45309;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+        }
+
+        .pdf-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0 0 1.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .btn-open {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            color: white;
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-open:hover {
+            opacity: 0.95;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Enhanced Telegram Button & Link */
+        .telegram-link {
+            text-decoration: none;
+            width: 100%;
+            display: block;
+        }
+
+        .tellegram {
+            background: linear-gradient(135deg, #229ED9 0%, #0088cc 100%);
+            color: #ffffff;
+            height: 44px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            box-shadow: 0 4px 12px rgba(0, 136, 204, 0.25);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tellegram ion-icon {
+            font-size: 1.15rem;
+        }
+
+        .telegram-link:hover .tellegram {
+            background: linear-gradient(135deg, #2aabee 0%, #0077b5 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 136, 204, 0.35);
+        }
+
+        .empty-box {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            border-radius: 16px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="msg_wrapper">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for msg in messages %}
+        <div id="notify" class="notify">
+            <p style="margin: 0;">{{ msg }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <header>
+        <nav>
+            <div>
+                <img class="logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Edu Resources Logo">
+            </div>
+            <div class="nav-actions">
+                <a href="{{ url_for('dashboard') }}" title="Profile">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                </a>
+                <div id="toggleBtn" title="Menu">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div id="sidebar" class="sidebar">
+            <div id="closeBtn" class="close-btn" title="Close Menu">
+                <ion-icon name="close-outline"></ion-icon>
+            </div>
+
+            <ul>
+                <a href="{{ url_for('home') }}">
+                    <li><ion-icon name="home-outline"></ion-icon> Home</li>
+                </a>
+                <a href="{{ url_for('dashboard') }}">
+                    <li><ion-icon name="person-outline"></ion-icon> Profile</li>
+                </a>
+                <a href="{{ url_for('ninth') }}">
+                    <li><ion-icon name="book-outline"></ion-icon> Class 9th</li>
+                </a>
+                <a href="{{ url_for('tenth') }}">
+                    <li><ion-icon name="school-outline"></ion-icon> Class 10th</li>
+                </a>
+                <a href="{{ url_for('twelth') }}">
+                    <li><ion-icon name="library-outline"></ion-icon> Class 12th</li>
+                </a>
+                <a href="{{ url_for('premium') }}">
+                    <li><ion-icon name="sparkles-outline" style="color: #f59e0b;"></ion-icon>Premium Materials</li>
+                </a>
+                <a href="{{ url_for('support') }}">
+                    <li><ion-icon name="headset-outline"></ion-icon> Support Helpdesk</li>
+                </a>
+            </ul>
+        </div>
+
+        <div class="premium-banner">
+            <h2>👑 Premium PDF Vault</h2>
+            <p>Access high-quality reference notes, formula sheets, and study resources.</p>
+        </div>
+
+        <div class="pdf-grid">
+            {% for res in resources %}
+            <div class="pdf-card">
+                <div>
+                    <span class="badge-subject">Class {{ res.subject.grade.value }} • {{ res.subject.name }}</span>
+                    <h3 class="pdf-title">
+                        <ion-icon name="document-text-outline" style="color: #f59e0b;"></ion-icon>
+                        {{ res.title }}
+                    </h3>
+                </div>
+                <div class="card-actions">
+                    <a href="{{ res.file_path }}" target="_blank" class="btn-open">
+                        <ion-icon name="eye-outline"></ion-icon> View Preview
+                    </a>
+                    <a href="https://t.me/Edureso" target="_blank" class="telegram-link">
+                        <div class="tellegram">
+                            <ion-icon name="paper-plane-outline"></ion-icon> Get Full PDF
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-box">
+                <ion-icon name="folder-open-outline"
+                    style="font-size: 2.5rem; color: #cbd5e1; margin-bottom: 0.5rem;"></ion-icon>
+                <p>No premium PDFs uploaded yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='css_and_js/nav.js') }}"></script>
+    <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
+</body>
+
+</html>
