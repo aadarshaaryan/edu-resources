@@ -4,19 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Control Panel</title>
-    
+    <title>Admin Control Panel | Edu Resources</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/admin.css') }}">
-    
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 
 <body>
     <div class="admin-container">
+        <!-- Header -->
         <header>
             <div class="header-brand">
-                <div class="icon-badge">⚡</div>
+                <div class="icon-badge">⚙️</div>
                 <h1>Admin Control Center</h1>
             </div>
             <a href="{{ url_for('dashboard') }}" class="back-link">
@@ -24,6 +25,7 @@
             </a>
         </header>
 
+        <!-- Flash Messages -->
         <div class="msg_wrapper">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -37,6 +39,38 @@
             {% endwith %}
         </div>
 
+        <!-- Feedback & Rating Metrics Banner -->
+        <div class="card full-width card-feedback-summary" style="margin-bottom: 24px;">
+            <div
+                style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h2 style="margin: 0; display: flex; align-items: center; gap: 8px;">
+                        <span class="card-icon">⭐</span> Student Feedback & Ratings Overview
+                    </h2>
+                    <p style="margin: 5px 0 0 0; color: #6b7280; font-size: 0.95rem;">
+                        Real-time reviews and rating metrics submitted by students from the home page.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <div
+                        style="text-align: center; background: rgba(245, 158, 11, 0.1); padding: 10px 18px; border-radius: 10px;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #f59e0b;">
+                            {{ avg_rating if avg_rating else '0.0' }} / 5.0
+                        </div>
+                        <div style="font-size: 0.8rem; color: #78350f; font-weight: 600;">Average Rating</div>
+                    </div>
+                    <div
+                        style="text-align: center; background: rgba(99, 102, 241, 0.1); padding: 10px 18px; border-radius: 10px;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #6366f1;">
+                            {{ total_reviews if total_reviews else 0 }}
+                        </div>
+                        <div style="font-size: 0.8rem; color: #3730a3; font-weight: 600;">Total Reviews</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Actions Grid -->
         <div class="admin-grid">
             <!-- Subject Creation -->
             <div class="card card-subject">
@@ -72,7 +106,8 @@
                         <label>Select Subject</label>
                         <select name="subject_id" required>
                             {% for subject in subjects %}
-                            <option value="{{ subject.id }}">Class {{ subject.grade.value }} - {{ subject.name }}</option>
+                            <option value="{{ subject.id }}">Class {{ subject.grade.value }} - {{ subject.name }}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -97,7 +132,8 @@
                         <label>Select Subject</label>
                         <select name="subject_id" required>
                             {% for subject in subjects %}
-                            <option value="{{ subject.id }}">Class {{ subject.grade.value }} - {{ subject.name }}</option>
+                            <option value="{{ subject.id }}">Class {{ subject.grade.value }} - {{ subject.name }}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -110,8 +146,8 @@
             </div>
         </div>
 
-        <!-- Resources Overview -->
-        <div class="card full-width card-resources">
+        <!-- Uploaded Resources Table -->
+        <div class="card full-width card-resources" style="margin-top: 24px;">
             <div class="table-header-bar">
                 <h2><span class="card-icon">📂</span> Uploaded Documents</h2>
                 <span class="count-badge">{{ resources|length if resources else 0 }} Files</span>
@@ -148,11 +184,14 @@
                             </td>
                             <td data-label="Action" class="action-td">
                                 <div class="action-cell">
-                                    <a href="{{ url_for('view_resources', subject_id=res.subject.id) }}" class="btn-action btn-view">
+                                    <a href="{{ url_for('view_resources', subject_id=res.subject.id) }}"
+                                        class="btn-action btn-view">
                                         <ion-icon name="eye-outline"></ion-icon> View
                                     </a>
-                                    
-                                    <form action="{{ url_for('delete_resource', resource_id=res.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this PDF?');" style="display:inline;">
+
+                                    <form action="{{ url_for('delete_resource', resource_id=res.id) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this PDF?');"
+                                        style="display:inline;">
                                         <button type="submit" class="btn-action btn-delete">
                                             <ion-icon name="trash-outline"></ion-icon> Delete
                                         </button>
@@ -172,7 +211,61 @@
                 </table>
             </div>
         </div>
+
+        <!-- Student Feedbacks & Reviews Table -->
+        <div class="card full-width card-feedback" style="margin-top: 24px;">
+            <div class="table-header-bar">
+                <h2><span class="card-icon">💬</span> All Submitted Feedbacks</h2>
+                <span class="count-badge">{{ feedbacks|length if feedbacks else 0 }} Reviews</span>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Rating</th>
+                            <th>Feedback Comment</th>
+                            <th style="text-align: right;">Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fb in feedbacks %}
+                        <tr>
+                            <td data-label="User">
+                                <strong>{{ fb.user.username if fb.user else 'Anonymous Student' }}</strong>
+                            </td>
+                            <td data-label="Rating">
+                                <span style="color: #f59e0b; font-size: 1.1rem; letter-spacing: 2px;">
+                                    {% for i in range(fb.rating) %}★{% endfor %}{% for i in range(5 - fb.rating) %}☆{%
+                                    endfor %}
+                                </span>
+                                <span
+                                    style="font-weight: 600; font-size: 0.85rem; color: #6b7280; margin-left: 4px;">({{
+                                    fb.rating }}/5)</span>
+                            </td>
+                            <td data-label="Feedback Comment">
+                                <p style="margin: 0; white-space: pre-wrap; word-break: break-word;">{{ fb.comment }}
+                                </p>
+                            </td>
+                            <td data-label="Date Submitted"
+                                style="text-align: right; color: #6b7280; font-size: 0.85rem;">
+                                {{ fb.created_at.strftime('%b %d, %Y - %I:%M %p') if fb.created_at else 'N/A' }}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                <ion-icon name="chatbox-outline" class="empty-icon"></ion-icon>
+                                <p>No feedbacks submitted yet.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
     <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
 </body>
 

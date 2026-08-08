@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 import cloudinary
 import cloudinary.uploader
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from models import db, User, Profile, Subject, Resource, GradeLevel, TierType
+from models import db, User, Profile, Subject, Resource, GradeLevel, TierType, Feedback
+from sqlalchemy import func
 
 # Load environment variables from .env file
 load_dotenv()
@@ -62,9 +63,32 @@ def admin_required(f):
     return decorated_function
 
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def home():
-    return render_template('index.html')
+    if request.method == "POST":
+        rating = request.form.get("rating", type=int)
+        comment = request.form.get("comment", "").strip()
+
+        if not rating or not (1 <= rating <= 5):
+            flash("Please select a star rating between 1 and 5.")
+            return redirect(url_for("home"))
+
+        if not comment:
+            flash("Please enter feedback comments.")
+            return redirect(url_for("home"))
+
+        user_id = current_user.id if current_user.is_authenticated else None
+        feedback = Feedback(user_id=user_id, rating=rating, comment=comment)
+        db.session.add(feedback)
+        db.session.commit()
+
+        flash("Thank you for your feedback! ⭐")
+        return redirect(url_for("home"))
+
+    feedbacks = Feedback.query.order_by(Feedback.created_at.desc()).all()
+    avg_rating = db.session.query(func.avg(Feedback.rating)).scalar() or 0.0
+    
+    return render_template('index.html', feedbacks=feedbacks, avg_rating=round(avg_rating, 1))
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -221,11 +245,20 @@ def admin_dashboard():
 
     subjects = Subject.query.order_by(Subject.grade).all()
     resources = Resource.query.all()
+    
+    # Fetch feedback data for admin panel
+    feedbacks = Feedback.query.order_by(Feedback.created_at.desc()).all()
+    avg_rating = db.session.query(func.avg(Feedback.rating)).scalar() or 0.0
+    total_reviews = len(feedbacks)
+
     return render_template(
         "admin.html", 
         subjects=subjects, 
         resources=resources, 
-        grades=GradeLevel
+        grades=GradeLevel,
+        feedbacks=feedbacks,
+        avg_rating=round(avg_rating, 1),
+        total_reviews=total_reviews
     )
 
 

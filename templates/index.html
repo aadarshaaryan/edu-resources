@@ -187,6 +187,37 @@
     </main>
 
     <footer>
+
+        <section class="feedback-section htanimate" style="padding: 20px; margin-top: 30px;">
+            <h2>⭐ Student Feedback & Ratings</h2>
+            <p>Overall Rating: <strong>{{ avg_rating }} / 5.0</strong></p>
+
+            <!-- Feedback Submission Form -->
+            <form method="POST" action="{{ url_for('home') }}" class="feedback-form" style="margin-bottom: 30px;">
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" required /><label for="star5"
+                        title="5 stars">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4"
+                        title="4 stars">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3"
+                        title="3 stars">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2"
+                        title="2 stars">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <textarea name="comment" placeholder="Write your thoughts or suggestions here..." rows="3" required
+                        style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"></textarea>
+                </div>
+
+                <button type="submit"
+                    style="margin-top: 10px; padding: 10px 20px; background: #6366f1; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
+                    Submit Feedback
+                </button>
+            </form>
+        </section>
+
         <div class="footer-grid">
             <div class="footer-brand">
                 <h3>
