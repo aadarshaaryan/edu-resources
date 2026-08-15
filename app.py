@@ -65,30 +65,52 @@ def admin_required(f):
 
 @app.route('/', methods=["GET", "POST"])
 def home():
+    user_has_rated = False
+    
+    if current_user.is_authenticated:
+        # Check if the current user has already submitted a rating
+        user_has_rated = db.session.query(
+            Feedback.query.filter(Feedback.user_id == current_user.id, Feedback.rating.isnot(None)).exists()
+        ).scalar()
+
     if request.method == "POST":
+        if not current_user.is_authenticated:
+            flash("Please log in to leave feedback or ratings.")
+            return redirect(url_for("login"))
+
         rating = request.form.get("rating", type=int)
         comment = request.form.get("comment", "").strip()
-
-        if not rating or not (1 <= rating <= 5):
-            flash("Please select a star rating between 1 and 5.")
-            return redirect(url_for("home"))
 
         if not comment:
             flash("Please enter feedback comments.")
             return redirect(url_for("home"))
 
-        user_id = current_user.id if current_user.is_authenticated else None
-        feedback = Feedback(user_id=user_id, rating=rating, comment=comment)
+        # Prevent double-rating
+        if rating is not None:
+            if user_has_rated:
+                flash("You have already submitted a rating! You can only submit text feedback now.")
+                return redirect(url_for("home"))
+            if not (1 <= rating <= 5):
+                flash("Please select a valid rating between 1 and 5.")
+                return redirect(url_for("home"))
+
+        feedback = Feedback(user_id=current_user.id, rating=rating, comment=comment)
         db.session.add(feedback)
         db.session.commit()
 
-        flash("Thank you for your feedback! ⭐")
+        flash("Thank you for your feedback! ❤️")
         return redirect(url_for("home"))
 
     feedbacks = Feedback.query.order_by(Feedback.created_at.desc()).all()
-    avg_rating = db.session.query(func.avg(Feedback.rating)).scalar() or 0.0
-    
-    return render_template('index.html', feedbacks=feedbacks, avg_rating=round(avg_rating, 1))
+    # Calculate average rating only from feedbacks with explicit ratings
+    avg_rating = db.session.query(func.avg(Feedback.rating)).filter(Feedback.rating.isnot(None)).scalar() or 0.0
+
+    return render_template(
+        'index.html', 
+        feedbacks=feedbacks, 
+        avg_rating=round(avg_rating, 1),
+        user_has_rated=user_has_rated
+    )
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -248,8 +270,8 @@ def admin_dashboard():
     
     # Fetch feedback data for admin panel
     feedbacks = Feedback.query.order_by(Feedback.created_at.desc()).all()
-    avg_rating = db.session.query(func.avg(Feedback.rating)).scalar() or 0.0
-    total_reviews = len(feedbacks)
+    avg_rating = db.session.query(func.avg(Feedback.rating)).filter(Feedback.rating.isnot(None)).scalar() or 0.0
+    total_reviews = db.session.query(func.count(Feedback.id)).filter(Feedback.rating.isnot(None)).scalar() or 0
 
     return render_template(
         "admin.html", 

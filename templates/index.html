@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
 
@@ -9,6 +9,12 @@
             t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
             y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
         })(window, document, "clarity", "script", "xrfoioai95");
+    </script>
+
+    <!-- Theme Initialization Script (Prevents Flickering) -->
+    <script>
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
 
     <meta name="google-site-verification" content="7hA14zrI3KPe9pz3kzccZwrZg3jLvPyK0oV6NbOMkUQ" />
@@ -94,6 +100,10 @@
                 <img class="logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Edu Resources Logo">
             </div>
             <div class="nav-actions">
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Dark/Light Mode">
+                    <ion-icon id="themeIcon" name="moon-outline"></ion-icon>
+                </button>
                 <a href="{{ url_for('dashboard') }}" title="Profile">
                     <ion-icon name="person-circle-outline"></ion-icon>
                 </a>
@@ -138,21 +148,96 @@
                 </a>
             </div>
 
+            <!-- Single Premium Vault Link -->
             <a href="{{ url_for('premium') }}" style="text-decoration: none;">
                 <div class="tier-card premium">
+                    <div class="premium-badge">
+                        <ion-icon name="sparkles"></ion-icon> RECOMMENDED
+                    </div>
+
                     <div class="tier-icon">
                         <ion-icon name="diamond-outline"></ion-icon>
                     </div>
+
                     <div class="tier-info">
                         <h3>Premium Materials</h3>
                         <p>Unlock deep-dive mock exams, ultimate revision sheets, and hyper-targeted test preparation
                             guides.</p>
                         <span class="explore-link">
-                            Explore Vault <ion-icon name="arrow-forward-outline"></ion-icon>
+                            Explore Vault <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
                         </span>
                     </div>
                 </div>
             </a>
+        </section>
+
+        <!-- Feedback Section -->
+        <section class="feedback-section htanimate">
+            <h2>⭐ Student Feedback & Ratings</h2>
+            <p class="avg-rating">Overall Rating: <strong>{{ avg_rating }} / 5.0</strong></p>
+
+            <!-- Submission Form -->
+            {% if current_user.is_authenticated %}
+            <form method="POST" action="{{ url_for('home') }}" class="feedback-form">
+                {% if not user_has_rated %}
+                <p class="form-title">Rate your experience (One-time only):</p>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" required /><label for="star5"
+                        title="5 stars">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4"
+                        title="4 stars">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3"
+                        title="3 stars">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2"
+                        title="2 stars">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+                </div>
+                {% else %}
+                <p class="already-rated-msg">✅ You have already submitted your rating. You can send as much text
+                    feedback as you like below!</p>
+                {% endif %}
+
+                <div class="comment-container">
+                    <textarea name="comment" placeholder="Write your thoughts or suggestions here..." rows="3"
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="submit-feedback-btn">
+                    Submit Feedback
+                </button>
+            </form>
+            {% else %}
+            <div class="login-prompt">
+                <p>Please <a href="{{ url_for('login') }}">Log In</a> to submit ratings and feedback.</p>
+            </div>
+            {% endif %}
+
+            <!-- Public Feedback Listing -->
+            <div class="feedback-list">
+                <h3>💬 Recent Student Reviews</h3>
+                {% if feedbacks %}
+                <div class="reviews-wrapper">
+                    {% for fb in feedbacks %}
+                    <div class="review-card">
+                        <div class="review-header">
+                            <strong>{{ fb.user.username if fb.user else 'Anonymous Student' }}</strong>
+                            <span class="review-date">
+                                {{ fb.created_at.strftime('%b %d, %Y') if fb.created_at else '' }}
+                            </span>
+                        </div>
+                        {% if fb.rating %}
+                        <div class="review-stars">
+                            {% for i in range(fb.rating) %}★{% endfor %}{% for i in range(5 - fb.rating) %}☆{% endfor %}
+                        </div>
+                        {% endif %}
+                        <p class="review-comment">{{ fb.comment }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="no-reviews-msg">No reviews yet. Be the first to share your thoughts!</p>
+                {% endif %}
+            </div>
         </section>
 
         <div id="sidebar" class="sidebar">
@@ -187,37 +272,6 @@
     </main>
 
     <footer>
-
-        <section class="feedback-section htanimate" style="padding: 20px; margin-top: 30px;">
-            <h2>⭐ Student Feedback & Ratings</h2>
-            <p>Overall Rating: <strong>{{ avg_rating }} / 5.0</strong></p>
-
-            <!-- Feedback Submission Form -->
-            <form method="POST" action="{{ url_for('home') }}" class="feedback-form" style="margin-bottom: 30px;">
-                <div class="star-rating">
-                    <input type="radio" id="star5" name="rating" value="5" required /><label for="star5"
-                        title="5 stars">★</label>
-                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4"
-                        title="4 stars">★</label>
-                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3"
-                        title="3 stars">★</label>
-                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2"
-                        title="2 stars">★</label>
-                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
-                </div>
-
-                <div style="margin-top: 10px;">
-                    <textarea name="comment" placeholder="Write your thoughts or suggestions here..." rows="3" required
-                        style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"></textarea>
-                </div>
-
-                <button type="submit"
-                    style="margin-top: 10px; padding: 10px 20px; background: #6366f1; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
-                    Submit Feedback
-                </button>
-            </form>
-        </section>
-
         <div class="footer-grid">
             <div class="footer-brand">
                 <h3>
@@ -265,6 +319,28 @@
 
     <script src="{{ url_for('static', filename='css_and_js/nav.js') }}"></script>
     <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
+
+    <!-- Theme Toggle Handler JavaScript -->
+    <script>
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function updateIcon(theme) {
+            themeIcon.setAttribute('name', theme === 'dark' ? 'sunny-outline' : 'moon-outline');
+        }
+
+        // Initialize Icon
+        updateIcon(document.documentElement.getAttribute('data-theme'));
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+    </script>
 </body>
 
 </html>

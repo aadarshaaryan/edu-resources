@@ -70,7 +70,7 @@ class Feedback(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
-    rating = db.Column(db.Integer, nullable=False)  # 1 to 5
+    rating = db.Column(db.Integer, nullable=True)  # 1 to 5 (Nullable to allow subsequent text-only feedback)
     comment = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     user = db.relationship('User', backref='feedbacks', lazy=True)
